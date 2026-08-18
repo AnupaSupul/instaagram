@@ -1,0 +1,120 @@
+/* src/index.css */
+.w-20 {
+  width: 20%;
+}
+
+.w-30 {
+  width: 30%;
+}
+.logo-text {
+  width: 100px;
+}
+.bi {
+  margin-right: 10px;
+}
+
+.nav-item {
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+}
+
+.nav-item:hover {
+  background-color: #f0f0f0;
+}
+
+.dp {
+  width: 32px;
+  height: 32px;
+  object-fit: cover;
+}
+.story {
+  height: 60px;
+  border-radius: 8px;
+}
+.post {
+  width: 350px;
+}
+.post-img {
+  max-height: 450px;
+  object-fit: cover;
+}
+
+.suggestions {
+  width: 75%;
+  margin: 1.5rem;
+}
+
+.suggestions h5 {
+  font-size: 16px;
+}
+.suggestions .dp {
+  width: 40px;
+  height: 40px;
+  margin-top: 0 !important;
+}
+
+/* src/index.css */
+.w-20 {
+  width: 20%;
+}
+
+.w-30 {
+  width: 30%;
+}
+.logo-text {
+  width: 100px;
+}
+.bi {
+  margin-right: 10px;
+}
+
+.dp {
+  width: 32px;
+  height: 32px;
+  object-fit: cover;
+}
+.story {
+  height: 60px;
+  border-radius: 8px;
+}
+.post {
+  width: 100%;
+  max-width: 470px;
+}
+.post-img {
+  max-height: 450px;
+  object-fit: cover;
+}
+
+.suggestions {
+  width: 293px;
+  min-width: 293px;
+  margin: 1.5rem;
+}
+
+.suggestions h5 {
+  font-size: 16px;
+}
+.suggestions .dp {
+  width: 40px;
+  height: 40px;
+  margin-top: 0 !important;
+}
+
+.sidebar {
+  width: 244px;
+  min-width: 244px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 244px;
+  min-width: 244px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}

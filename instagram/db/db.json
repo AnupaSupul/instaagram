@@ -1,0 +1,95 @@
+{
+  "posts": [
+    {
+      "id": "1",
+      "user": {
+        "id": "u1",
+        "username": "john_doe",
+        "profile_pic": "../src/assets/male1.webp"
+      },
+      "image": "../src/assets/post1.webp",
+      "caption": "Enjoying the sunset! 🌅",
+      "likes": 120,
+      "comments": [
+        {
+          "username": "alex",
+          "text": "Awesome view!"
+        }
+      ],
+      "timestamp": "2 hours ago"
+    },
+    {
+      "id": "2",
+      "user": {
+        "id": "u2",
+        "username": "jane_smith",
+        "profile_pic": "../src/assets/male2l.webp"
+      },
+      "image": "../src/assets/post2.webp",
+      "caption": "Coffee and code ☕💻",
+      "likes": 230,
+      "comments": [],
+      "timestamp": "5 hours ago"
+    },
+    {
+      "user": {
+        "id": "1",
+        "username": "johndoe",
+        "profile_pic": "https://picsum.photos/id/1025/200/200"
+      },
+      "image": "../src/assets/male1.webp",
+      "caption": "ss",
+      "likes": 0,
+      "comments": [],
+      "timestamp": "2026-08-17T11:20:22.696Z",
+      "id": "Zp3xbaOSxBw"
+    }
+  ],
+  "userProfile": {
+    "id": "1",
+    "username": "johndoe",
+    "bio": "Photographer & Traveller 📸",
+    "profilePicture": "https://picsum.photos/id/1025/200/200"
+  },
+  "profile": {
+    "id": "u1",
+    "username": "john_doe",
+    "profile_pic": "../src/assets/male1.webp"
+  },
+  "suggestions": [
+    {
+      "id": "101",
+      "username": "anna",
+      "profile_pic": "../src/assets/male1.webp"
+    },
+    {
+      "id": "102",
+      "username": "travel_anna",
+      "profile_pic": "../src/assets/male2l.webp"
+    }
+  ],
+  "stories": [
+    {
+      "id": "1",
+      "username": "sara",
+      "userImage": "https://picsum.photos/id/1025/100/100",
+      "storyImage": "https://picsum.photos/id/1015/600/800",
+      "timestamp": "2025-03-02T10:00:00Z"
+    },
+    {
+      "id": "2",
+      "username": "travel_with_ana",
+      "userImage": "https://picsum.photos/id/1011/100/100",
+      "storyImage": "https://picsum.photos/id/1020/600/800",
+      "timestamp": "2025-03-02T11:30:00Z"
+    },
+    {
+      "id": "3",
+      "username": "john_doe",
+      "userImage": "https://picsum.photos/id/1005/100/100",
+      "storyImage": "https://picsum.photos/id/1012/600/800",
+      "timestamp": "2025-03-02T12:00:00Z"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
