@@ -1,0 +1,147 @@
+// src/Profile.jsx
+import { useEffect, useState } from 'react';
+import './Profile.css';
+export default function Profile() {
+  const [user, setUser]               = useState(null);
+  const [userPosts, setUserPosts]     = useState([]);
+  const [isEditing, setIsEditing]     = useState(false);
+  const [bioInput, setBioInput]       = useState('');
+  const [newPostCaption, setNewPostCaption] = useState('');
+  const [newPostImage, setNewPostImage]     = useState('');
+ useEffect(() => {
+  // GET /userProfile
+  fetch('http://localhost:3000/userProfile')
+    .then((res) => res.json())
+    .then((data) => {
+      setUser(data);
+      setBioInput(data.bio || '');   // pre-fill the edit form
+    })
+    .catch((err) => console.error('Error fetching profile:', err));
+
+// GET /posts?userId=1  (json-server filters by query param)
+  fetch('http://localhost:3000/posts?userId=1')
+    .then((res) => res.json())
+    .then((data) => setUserPosts(data))
+    .catch((err) => console.error('Error fetching posts:', err));
+}, []);
+  // UPDATE
+  const handleUpdateBio = (e) => {
+  e.preventDefault();   // prevent page reload on form submit
+
+fetch('http://localhost:3000/userProfile', {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ bio: bioInput }),
+  })
+    .then((res) => res.json())
+    .then((updatedUser) => {
+      setUser(updatedUser);      // update local state with server response
+      setIsEditing(false);       // close the edit form
+    })
+    .catch((err) => console.error('Error updating bio:', err));
+};
+  // CREATE
+  const handleCreatePost = (e) => {
+  e.preventDefault();
+
+const newPost = {
+  user: {
+    id: user.id,
+    username: user.username,
+    profile_pic: user.profilePicture,
+  },
+  image: newPostImage || 'https://picsum.photos/600/600',
+  caption: newPostCaption,
+  likes: 0,
+  comments: [],
+  timestamp: new Date().toISOString(),
+};
+  fetch('http://localhost:3000/posts', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(newPost),
+  })
+    .then((res) => res.json())
+    .then((createdPost) => {
+      setUserPosts([createdPost, ...userPosts]);   // prepend to top
+      setNewPostCaption('');
+      setNewPostImage('');
+    })
+    .catch((err) => console.error('Error creating post:', err));
+};
+  // DELETE
+  const handleDeletePost = (postId) => {
+  fetch(`http://localhost:3000/posts/${postId}`, {
+    method: 'DELETE',
+  })
+    .then((res) => {
+      if (res.ok) {
+        // Remove from local state — no refetch
+        setUserPosts(userPosts.filter((post) => post.id !== postId));
+      }
+    })
+    .catch((err) => console.error('Error deleting post:', err));
+};
+  if (!user) return <div>Loading profile...</div>;
+  return (
+    <div className="profile-container">
+      {/* ── Profile Header ── */}
+      <div className="profile-header">
+        <img src={user.profilePicture} alt={user.username} className="profile-pic" />
+        <div className="profile-info">
+          <h2>{user.username}</h2>
+          <p className="bio">{user.bio}</p>
+          <button onClick={() => setIsEditing(!isEditing)}>
+            {isEditing ? 'Cancel' : 'Edit Bio'}
+          </button>
+          {isEditing && (
+            <form onSubmit={handleUpdateBio} className="edit-bio-form">
+              <input
+                type="text"
+                value={bioInput}
+                onChange={(e) => setBioInput(e.target.value)}
+                placeholder="Enter new bio..."
+              />
+              <button type="submit">Save</button>
+            </form>
+          )}
+        </div>
+      </div>
+      {/* ── Create Post ── */}
+      <div className="create-post-section">
+        <h3>Create New Post</h3>
+        <form onSubmit={handleCreatePost}>
+          <input
+            type="text"
+            placeholder="Image URL"
+            value={newPostImage}
+            onChange={(e) => setNewPostImage(e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Caption"
+            value={newPostCaption}
+            onChange={(e) => setNewPostCaption(e.target.value)}
+            required
+          />
+          <button type="submit">Post</button>
+        </form>
+      </div>
+      {/* ── Posts Grid ── */}
+      <div className="profile-grid">
+        {userPosts.map((post) => (
+          <div key={post.id} className="grid-item">
+            <img src={post.postImage} alt={post.caption} />
+            <div className="grid-overlay">
+              <p>{post.caption}</p>
+              <button className="delete-btn" onClick={() => handleDeletePost(post.id)}>
+                Delete
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
