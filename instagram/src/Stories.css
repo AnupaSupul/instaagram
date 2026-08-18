@@ -1,0 +1,40 @@
+.stories-container {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  overflow-x: auto;
+  border-bottom: 1px solid #dbdbdb;
+  background-color: #fff;
+}
+
+.story-avatar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+.gradient-border {
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.gradient-border img {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 2px solid white;
+  object-fit: cover;
+}
+.username {
+  font-size: 12px;
+  margin-top: 4px;
+  max-width: 70px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
