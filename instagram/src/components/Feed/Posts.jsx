@@ -1,11 +1,12 @@
 // src/Posts.jsx
 import { useState, useEffect } from 'react';
+import { fetchPosts } from '../../services/api';
+
 
 function Posts() {
   const [posts, setPosts] = useState([]);
   useEffect(() => {
-    fetch('http://localhost:3000/posts')
-      .then((res) => res.json())
+    fetchPosts()
       .then((data) => setPosts(data))
       .catch((err) => console.log('Error fetching posts:', err));
   }, []);

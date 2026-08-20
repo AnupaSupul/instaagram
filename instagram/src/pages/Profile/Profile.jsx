@@ -1,6 +1,8 @@
 // src/Profile.jsx
 import { useEffect, useState } from 'react';
 import './Profile.css';
+import{fetchUserProfile,deletePost,createPost,fetchUserPosts,updateBio,fetchPosts} from '../../services/api';
+
 export default function Profile() {
   const [user, setUser]               = useState(null);
   const [userPosts, setUserPosts]     = useState([]);
@@ -10,30 +12,28 @@ export default function Profile() {
   const [newPostImage, setNewPostImage]     = useState('');
  useEffect(() => {
   // GET /userProfile
-  fetch('http://localhost:3000/userProfile')
-    .then((res) => res.json())
+  fetchUserProfile()
     .then((data) => {
       setUser(data);
-      setBioInput(data.bio || '');   // pre-fill the edit form
+      setBioInput(data.bio || '');
     })
-    .catch((err) => console.error('Error fetching profile:', err));
+    .catch((err) =>
+      console.error('Error fetching profile:', err)
+    );
 
-// GET /posts?userId=1  (json-server filters by query param)
-  fetch('http://localhost:3000/posts?userId=1')
-    .then((res) => res.json())
-    .then((data) => setUserPosts(data))
-    .catch((err) => console.error('Error fetching posts:', err));
+  fetchPosts()
+    .then((data) => {
+      setUserPosts(data);
+    })
+    .catch((err) =>
+      console.error('Error fetching posts:', err)
+    );
 }, []);
   // UPDATE
   const handleUpdateBio = (e) => {
   e.preventDefault();   // prevent page reload on form submit
 
-fetch('http://localhost:3000/userProfile', {
-    method: 'PATCH',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ bio: bioInput }),
-  })
-    .then((res) => res.json())
+    updateBio(bioInput)
     .then((updatedUser) => {
       setUser(updatedUser);      // update local state with server response
       setIsEditing(false);       // close the edit form
@@ -56,12 +56,7 @@ const newPost = {
   comments: [],
   timestamp: new Date().toISOString(),
 };
-  fetch('http://localhost:3000/posts', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(newPost),
-  })
-    .then((res) => res.json())
+    createPost(newPost)
     .then((createdPost) => {
       setUserPosts([createdPost, ...userPosts]);   // prepend to top
       setNewPostCaption('');
@@ -71,9 +66,7 @@ const newPost = {
 };
   // DELETE
   const handleDeletePost = (postId) => {
-  fetch(`http://localhost:3000/posts/${postId}`, {
-    method: 'DELETE',
-  })
+    deletePost(postId)
     .then((res) => {
       if (res.ok) {
         // Remove from local state — no refetch

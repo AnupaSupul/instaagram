@@ -1,6 +1,7 @@
 // src/pages/Login/Login.jsx
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { loginUser } from '../../services/api';
 import './Login.css';
 
 function Login() {
@@ -8,11 +9,14 @@ function Login() {
   const [password, setPassword] = useState('');
   const [error, setError]       = useState('');
   const [loading, setLoading]   = useState(false);
+
   const navigate = useNavigate();
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setError('');
     setLoading(true);
+    
     try {
       // Check credentials against json-server
       const res = await fetch(

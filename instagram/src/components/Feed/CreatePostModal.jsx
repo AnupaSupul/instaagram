@@ -1,5 +1,9 @@
 import { useEffect, useState } from 'react';
 import './CreatePostModal.css';
+import {
+  fetchUserProfile,
+  createPost,
+} from '../../services/api';
 
 function CreatePostModal({ onClose }) {
   const [user, setUser] = useState(null);
@@ -7,8 +11,7 @@ function CreatePostModal({ onClose }) {
   const [image, setImage] = useState('');
 
   useEffect(() => {
-    fetch('http://localhost:3000/userProfile')
-      .then((res) => res.json())
+    fetchUserProfile()
       .then((data) => setUser(data))
       .catch((err) => console.error('Error fetching profile:', err));
   }, []);
@@ -31,14 +34,7 @@ function CreatePostModal({ onClose }) {
       timestamp: new Date().toISOString(),
     };
 
-    fetch('http://localhost:3000/posts', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(newPost),
-    })
-      .then((res) => res.json())
+    createPost(newPost)
       .then(() => {
         setCaption('');
         setImage('');

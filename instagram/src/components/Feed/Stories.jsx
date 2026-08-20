@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { fetchStories } from '../../services/api';
 import './Stories.css';
 
 export default function Stories() {
   const [stories, setStories] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
-    fetch('http://localhost:3000/stories')
-      .then((res) => res.json())
+    fetchStories()
       .then((data) => setStories(data))
       .catch((err) => console.error('Error fetching stories:', err));
   }, []);

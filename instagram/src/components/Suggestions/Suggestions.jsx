@@ -1,16 +1,18 @@
 // src/Suggestions.jsx
 import { useState, useEffect } from 'react';
+import {
+  fetchProfile,
+  fetchSuggestions,
+} from '../../services/api';
 
 const Suggestions = () => {
   const [profile, setProfile]         = useState(null);
   const [suggestions, setSuggestions] = useState([]);
   useEffect(() => {
-    fetch('http://localhost:3000/profile')
-      .then((res) => res.json())
+    fetchProfile()
       .then((data) => setProfile(data))
       .catch((err) => console.log('Profile fetch error:', err));
-    fetch('http://localhost:3000/suggestions')
-      .then((res) => res.json())
+    fetchSuggestions()
       .then((data) => setSuggestions(data))
       .catch((err) => console.log('Suggestions fetch error:', err));
   }, []);
