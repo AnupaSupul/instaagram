@@ -1,19 +1,33 @@
+
+import { useState } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Sidebar from './Sidebar';
-import Feed from './Feed';
-import Suggestions from './Suggestions';
-import StoryView from './StoryView';
-import Profile from './Profile';
+
+import Sidebar from './components/Sidebar/Sidebar';
+import Feed from './components/Feed/Feed';
+import Suggestions from './components/Suggestions/Suggestions';
+import StoryView from './pages/StoryView/StoryView';
+import Profile from './pages/Profile/Profile';
+import CreatePostModal from './components/Feed/CreatePostModal';
+
 import './App.css';
 
 // Layout component — the main Instagram page
 function Layout() {
+  const [showCreate, setShowCreate] = useState(false);
   return (
-    <div className="d-flex" style={{ maxWidth: '935px', margin: '0 auto' }}>
-      <Sidebar />
+    <>
+    <div className="d-flex" 
+          style={{ maxWidth: '935px', margin: '0 auto' }}>
+
+      <Sidebar onCreate={()=>setShowCreate(true)} />
       <Feed />
       <Suggestions />
     </div>
+
+    {showCreate && (
+      <CreatePostModal onClose={()=>setShowCreate(false)} />
+      )}
+    </>
   );
 }
 
