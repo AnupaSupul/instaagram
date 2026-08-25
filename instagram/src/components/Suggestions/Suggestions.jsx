@@ -5,6 +5,7 @@ import {
   fetchSuggestions,
 } from '../../services/api';
 
+
 const Suggestions = () => {
   const [profile, setProfile]         = useState(null);
   const [suggestions, setSuggestions] = useState([]);

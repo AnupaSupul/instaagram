@@ -1,39 +1,84 @@
-// src/Sidebar.jsx
 import instagramTextLogo from '../../assets/instagram.webp';
-import { Link } from 'react-router-dom';
-
+import { NavLink } from 'react-router-dom';
+import './Sidebar.css';
 
 function Sidebar({ onCreate }) {
   return (
-    <div className="w-20 m-3">
-      {/* Main nav - flows top to bottom */}
-      <div className="d-flex flex-column gap-3">
-        {/* Instagram text logo */}
+    <aside className="sidebar">
+
+      {/* Logo */}
+      <div className="sidebar-logo">
         <img
           src={instagramTextLogo}
           alt="Instagram"
-          className="logo-text"
         />
-        {/* Navigation links */}
-        <div className="nav-item"><i className="bi bi-house-door-fill"></i> Home</div>
-<div className="nav-item"><i className="bi bi-search"></i> Search</div>
-        <div className="nav-item"><i className="bi bi-compass"></i> Explore</div>
-        <div className="nav-item"><i className="bi bi-play-btn"></i> Reels</div>
-        <div className="nav-item"><i className="bi bi-chat-dots"></i> Messages</div>
-        <div className="nav-item"><i className="bi bi-heart"></i> Notifications</div>
-        <div className="nav-item"
+      </div>
+
+      {/* Navigation */}
+      <nav className="sidebar-nav">
+
+        <NavLink to="/" className="sidebar-item">
+          <i className="bi bi-house-door-fill"></i>
+          <span>Home</span>
+        </NavLink>
+
+        <NavLink to="/search" className="sidebar-item">
+          <i className="bi bi-search"></i>
+          <span>Search</span>
+        </NavLink>
+
+        <NavLink to="/explore" className="sidebar-item">
+          <i className="bi bi-compass"></i>
+          <span>Explore</span>
+        </NavLink>
+
+        <NavLink to="/reels" className="sidebar-item">
+          <i className="bi bi-play-btn"></i>
+          <span>Reels</span>
+        </NavLink>
+
+        <NavLink to="/messages" className="sidebar-item">
+          <i className="bi bi-chat-dots"></i>
+          <span>Messages</span>
+        </NavLink>
+
+        <NavLink to="/notifications" className="sidebar-item">
+          <i className="bi bi-heart"></i>
+          <span>Notifications</span>
+        </NavLink>
+
+        <button
+          className="sidebar-item sidebar-button"
           onClick={onCreate}
-          style={{ cursor: 'pointer' }}><i className="bi bi-plus-square"></i> Create</div>
-        <Link to="/profile">
-        <i className="bi bi-person"></i> Profile
-      </Link>
+        >
+          <i className="bi bi-plus-square"></i>
+          <span>Create</span>
+        </button>
+
+        <NavLink to="/profile" className="sidebar-item">
+          <i className="bi bi-person"></i>
+          <span>Profile</span>
+        </NavLink>
+
+      </nav>
+
+      {/* Bottom */}
+      <div className="sidebar-bottom">
+
+        <button className="sidebar-item sidebar-button">
+          <i className="bi bi-threads"></i>
+          <span>Threads</span>
+        </button>
+
+        <button className="sidebar-item sidebar-button">
+          <i className="bi bi-list"></i>
+          <span>More</span>
+        </button>
+
       </div>
-      {/* Bottom links - pinned to the bottom of the viewport */}
-      <div className="d-flex flex-column gap-3 position-fixed bottom-0 mb-3">
-        <div><i className="bi bi-threads"></i> Threads</div>
-        <div><i className="bi bi-list"></i> More</div>
-      </div>
-    </div>
+
+    </aside>
   );
 }
+
 export default Sidebar;
