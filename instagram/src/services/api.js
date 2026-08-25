@@ -30,6 +30,21 @@ export const deletePost = (id) =>
   });
 
 
+  // LIKE / UNLIKE POST
+export const likePost=(id,data)=>
+  fetch(`${BASE_URL}/posts/${id}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+  },
+    body: JSON.stringify(data),
+  })
+    .then((res) => res.json());
+
+
+
+    
+
 // ==================== PROFILE ====================
 
 // GET current user profile
