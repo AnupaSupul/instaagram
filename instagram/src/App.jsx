@@ -17,17 +17,32 @@ import './App.css';
 // Layout component — the main Instagram page
 // src/App.jsx
 function Layout() {
+    const [showCreate, setShowCreate] = useState(false);
+
   const user = JSON.parse(localStorage.getItem('user'));
 
 if (!user) {
     return <Navigate to="/login" replace />;  // redirect if not logged in
   }
   return (
-    <div className="d-flex" style={{ maxWidth: '935px', margin: '0 auto' }}>
-      <Sidebar />
-      <Feed />
-      <Suggestions />
-    </div>
+    <>
+      <div
+        className="d-flex"
+        style={{ maxWidth: '935px', margin: '0 auto' }}
+      >
+        <Sidebar onCreate={() => setShowCreate(true)} />
+
+        <Feed />
+
+        <Suggestions />
+      </div>
+
+      {showCreate && (
+        <CreatePostModal
+          onClose={() => setShowCreate(false)}
+        />
+      )}
+    </>
   );
 }
 
