@@ -168,7 +168,7 @@ function Posts() {
               className="post-img w-100 rounded"
             />
             {/* ── Action Icons ── */}
-            <div className="d-flex gap-3 my-2 fs-5">
+            <div className="post-actions">
             <i
                   className={
                     post.likedBy?.includes(
@@ -197,31 +197,32 @@ function Posts() {
               ></i>
 
               <i
-                className={
+                className={`bookmark ${
                   post.savedBy?.includes(
                     JSON.parse(localStorage.getItem('user'))?.id
                   )
                     ? 'bi bi-bookmark-fill'
                     : 'bi bi-bookmark'
-                }
+                }`}
                 onClick={() => handleSave(post)}
-                style={{ cursor: 'pointer' }}
               ></i>
+
             </div>
             {/* ── Like Count ── */}
-            <div>
-              
-              <div className="post-options">
-            <button onClick={() => handleEdit(post)}>
-              Edit
-            </button>
-          </div>
+ 
+                <div className="post-options">
+                  <button onClick={() => handleEdit(post)}>
+                    Edit
+                  </button>
+                </div>
 
+            <div className="like-count">
               <strong>{post.likes} likes</strong>
             </div>
+
             {/* ── Caption ── */}
-            <div>
-              <span className="fw-bold me-2">{post.user.username}</span>
+            <div className="post-caption">
+              <strong>{post.user.username}</strong>
               <span>{post.caption}</span>
             </div>
 

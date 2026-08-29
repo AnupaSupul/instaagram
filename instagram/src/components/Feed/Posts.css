@@ -1,3 +1,239 @@
+/* =========================
+   POST CARD
+========================= */
+
+.post {
+  width: 100%;
+  max-width: 500px;
+  position: relative;
+  margin-bottom: 40px;
+}
+
+
+/* =========================
+   ACTION BAR
+========================= */
+
+.post-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin: 10px 0 8px;
+}
+
+.post-actions i {
+  font-size: 24px;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.post-actions i:hover {
+  transform: scale(1.08);
+}
+
+.post-actions .bookmark {
+  margin-left: auto;
+}
+
+
+/* =========================
+   LIKE COUNT
+========================= */
+
+.like-count {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 7px;
+}
+
+
+/* =========================
+   CAPTION
+========================= */
+
+.post-caption {
+  display: flex;
+  gap: 6px;
+  font-size: 15px;
+  line-height: 1.4;
+  margin-bottom: 12px;
+}
+
+.post-caption strong {
+  font-weight: 600;
+}
+
+
+/* =========================
+   EDIT BUTTON
+========================= */
+
+.post-options {
+  position: absolute;
+  top: 8px;
+  right: 0;
+}
+
+.post-options button {
+  border: none;
+  background: transparent;
+  color: #737373;
+  font-size: 14px;
+  padding: 5px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.post-options button:hover {
+  background: #f2f2f2;
+  color: #111;
+}
+
+
+/* =========================
+   COMMENTS
+========================= */
+
+.comments-section {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #eeeeee;
+}
+
+.comment {
+  font-size: 14px;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.comment strong {
+  font-weight: 600;
+  margin-right: 5px;
+}
+
+
+/* =========================
+   COMMENT INPUT
+========================= */
+
+.comments-section form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.comments-section input {
+  flex: 1;
+  height: 38px;
+
+  padding: 0 14px;
+
+  border: 1px solid #dddddd;
+  border-radius: 20px;
+
+  outline: none;
+
+  font-size: 14px;
+  background: #fafafa;
+}
+
+.comments-section input:focus {
+  border-color: #b5b5b5;
+  background: white;
+}
+
+.comments-section form button {
+  border: none;
+
+  padding: 8px 15px;
+
+  background: #0095f6;
+  color: white;
+
+  border-radius: 18px;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.comments-section form button:hover {
+  background: #007ed6;
+}
+
+
+/* =========================
+   EDIT FORM
+========================= */
+
+.edit-post-form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  margin-top: 10px;
+  padding: 10px;
+
+  background: #fafafa;
+
+  border: 1px solid #eeeeee;
+  border-radius: 10px;
+}
+
+.edit-post-form input {
+  flex: 1;
+
+  min-width: 0;
+
+  height: 36px;
+
+  padding: 0 12px;
+
+  border: 1px solid #dddddd;
+  border-radius: 8px;
+
+  outline: none;
+
+  font-size: 14px;
+}
+
+.edit-post-form input:focus {
+  border-color: #999999;
+}
+
+.edit-post-form button {
+  border: none;
+  border-radius: 8px;
+
+  padding: 8px 14px;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.edit-post-form button:first-of-type {
+  background: #0095f6;
+  color: white;
+}
+
+.edit-post-form button:last-of-type {
+  background: #eeeeee;
+  color: #333;
+}
+
+.edit-post-form button:hover {
+  opacity: 0.9;
+}
+
+
+/* =========================
+   SHARE MODAL
+========================= */
+
 .share-modal-backdrop {
   position: fixed;
   inset: 0;
@@ -16,6 +252,7 @@
   max-width: 90%;
 
   background: white;
+
   border-radius: 14px;
 
   padding: 20px;
@@ -40,6 +277,7 @@
   background: transparent;
 
   font-size: 28px;
+
   cursor: pointer;
 }
 
@@ -51,6 +289,7 @@
   margin-top: 10px;
 
   border: none;
+
   border-radius: 8px;
 
   background: #f5f5f5;
@@ -62,4 +301,32 @@
 
 .share-option:hover {
   background: #e9e9e9;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
+
+  .post {
+    max-width: 100%;
+  }
+
+  .post-actions {
+    gap: 16px;
+  }
+
+  .post-actions i {
+    font-size: 22px;
+  }
+
+  .edit-post-form {
+    flex-wrap: wrap;
+  }
+
+  .edit-post-form input {
+    flex-basis: 100%;
+  }
 }
