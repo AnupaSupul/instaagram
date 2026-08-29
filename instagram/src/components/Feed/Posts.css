@@ -1,0 +1,65 @@
+.share-modal-backdrop {
+  position: fixed;
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.55);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 3000;
+}
+
+.share-modal {
+  width: 400px;
+  max-width: 90%;
+
+  background: white;
+  border-radius: 14px;
+
+  padding: 20px;
+
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.share-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 20px;
+}
+
+.share-modal-header h3 {
+  margin: 0;
+}
+
+.share-close-btn {
+  border: none;
+  background: transparent;
+
+  font-size: 28px;
+  cursor: pointer;
+}
+
+.share-option {
+  width: 100%;
+
+  padding: 12px;
+
+  margin-top: 10px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: #f5f5f5;
+
+  cursor: pointer;
+
+  font-size: 15px;
+}
+
+.share-option:hover {
+  background: #e9e9e9;
+}

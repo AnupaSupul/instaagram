@@ -1,18 +1,31 @@
 // src/Posts.jsx
 import { useState, useEffect } from 'react';
 import { fetchPosts,likePost,addComment,savePost } from '../../services/api';
-
+import './Posts.css';
 
 function Posts() {
   const [posts, setPosts] = useState([]);
   const [openComments, setOpenComments] = useState(null);
   const [commentText, setCommentText] = useState('');
+  const [sharePostId, setSharePostId] = useState(null);
+
   useEffect(() => {
     fetchPosts()
       .then((data) => setPosts(data))
       .catch((err) => console.log('Error fetching posts:', err));
   }, []);
 
+
+    const handleShare = async (post) => {
+      const shareUrl = `${window.location.origin}/post/${post.id}`;
+
+      try {
+        await navigator.clipboard.writeText(shareUrl);
+        alert('Post link copied!');
+      } catch (err) {
+        console.error('Error copying post link:', err);
+      }
+    };
 
     const handleComment = (post) => {
       const currentUser = JSON.parse(localStorage.getItem('user'));
@@ -150,7 +163,11 @@ function Posts() {
                   style={{ cursor: 'pointer' }}
                 ></i>
 
-              <i className="bi bi-send"></i>
+              <i
+                className="bi bi-send"
+                onClick={() => setSharePostId(post.id)}
+                style={{ cursor: 'pointer' }}
+              ></i>
 
               <i
                 className={
@@ -204,6 +221,40 @@ function Posts() {
 
                 </div>
               )}
+
+              {sharePostId === post.id && (
+                  <div className="share-modal-backdrop">
+                    <div className="share-modal">
+                      <div className="share-modal-header">
+                        <h3>Share post</h3>
+
+                        <button
+                          onClick={() => setSharePostId(null)}
+                          className="share-close-btn"
+                        >
+                          ×
+                        </button>
+                      </div>
+
+                      <button
+                        className="share-option"
+                        onClick={() => {
+                          handleShare(post);
+                          setSharePostId(null);
+                        }}
+                      >
+                        🔗 Copy link
+                      </button>
+
+                      <button
+                        className="share-option"
+                        onClick={() => setSharePostId(null)}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                )}
 
           </div>
         ))
