@@ -1,6 +1,6 @@
 // src/Posts.jsx
 import { useState, useEffect } from 'react';
-import { fetchPosts,likePost,addComment,savePost } from '../../services/api';
+import { fetchPosts,likePost,addComment,savePost,updatePost } from '../../services/api';
 import './Posts.css';
 
 function Posts() {
@@ -8,6 +8,8 @@ function Posts() {
   const [openComments, setOpenComments] = useState(null);
   const [commentText, setCommentText] = useState('');
   const [sharePostId, setSharePostId] = useState(null);
+  const [editingPostId, setEditingPostId] = useState(null);
+  const [editCaption, setEditCaption] = useState('');
 
   useEffect(() => {
     fetchPosts()
@@ -120,6 +122,31 @@ function Posts() {
         };
 
 
+        const handleEdit = (post) => {
+          setEditingPostId(post.id);
+          setEditCaption(post.caption);
+        };
+
+        const handleUpdatePost = (post) => {
+            updatePost(post.id, {
+              caption: editCaption,
+            })
+              .then((updatedPost) => {
+                setPosts((prevPosts) =>
+                  prevPosts.map((p) =>
+                    p.id === updatedPost.id ? updatedPost : p
+                  )
+                );
+
+                setEditingPostId(null);
+                setEditCaption('');
+              })
+              .catch((err) => {
+                console.error('Error updating post:', err);
+              });
+          };
+
+
   return (
     <div className="d-flex flex-column align-items-center">
       {posts.length > 0 ? (
@@ -183,6 +210,13 @@ function Posts() {
             </div>
             {/* ── Like Count ── */}
             <div>
+              
+              <div className="post-options">
+            <button onClick={() => handleEdit(post)}>
+              Edit
+            </button>
+          </div>
+
               <strong>{post.likes} likes</strong>
             </div>
             {/* ── Caption ── */}
@@ -190,6 +224,8 @@ function Posts() {
               <span className="fw-bold me-2">{post.user.username}</span>
               <span>{post.caption}</span>
             </div>
+
+            
 
                   {openComments === post.id && (
                 <div className="comments-section">
@@ -255,6 +291,31 @@ function Posts() {
                     </div>
                   </div>
                 )}
+
+                {editingPostId === post.id && (
+                    <div className="edit-post-form">
+
+                      <input
+                        type="text"
+                        value={editCaption}
+                        onChange={(e) => setEditCaption(e.target.value)}
+                      />
+
+                      <button onClick={() => handleUpdatePost(post)}>
+                        Save
+                      </button>
+
+                      <button
+                        onClick={() => {
+                          setEditingPostId(null);
+                          setEditCaption('');
+                        }}
+                      >
+                        Cancel
+                      </button>
+
+                    </div>
+                  )}
 
           </div>
         ))

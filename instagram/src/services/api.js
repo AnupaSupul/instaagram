@@ -54,7 +54,7 @@ export const addComment = (postId, comments) =>
   }).then((res) => res.json());
 
 
-//
+// savePost
   export const savePost = (id, savedBy) =>
   fetch(`${BASE_URL}/posts/${id}`, {
     method: 'PATCH',
@@ -63,6 +63,19 @@ export const addComment = (postId, comments) =>
     },
     body: JSON.stringify({ savedBy }),
   }).then((res) => res.json());
+
+
+  // UPDATE POST
+export const updatePost = (id, data) =>
+  fetch(`${BASE_URL}/posts/${id}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  }).then((res) => res.json());
+
+  
 // ==================== PROFILE ====================
 
 // GET current user profile
