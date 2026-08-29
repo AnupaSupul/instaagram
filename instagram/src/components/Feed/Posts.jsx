@@ -1,10 +1,12 @@
 // src/Posts.jsx
 import { useState, useEffect } from 'react';
-import { fetchPosts,likePost } from '../../services/api';
+import { fetchPosts,likePost,addComment,savePost } from '../../services/api';
 
 
 function Posts() {
   const [posts, setPosts] = useState([]);
+  const [openComments, setOpenComments] = useState(null);
+  const [commentText, setCommentText] = useState('');
   useEffect(() => {
     fetchPosts()
       .then((data) => setPosts(data))
@@ -12,38 +14,97 @@ function Posts() {
   }, []);
 
 
-const handleLike = (post) => {
-  const currentUser = JSON.parse(localStorage.getItem('user'));
+    const handleComment = (post) => {
+      const currentUser = JSON.parse(localStorage.getItem('user'));
 
-  if (!currentUser) return;
+      if (!currentUser || !commentText.trim()) return;
 
-  const userId = currentUser.id;
+      const newComment = {
+        id: crypto.randomUUID(),
+        userId: currentUser.id,
+        username: currentUser.username,
+        text: commentText.trim(),
+      };
 
-  const alreadyLiked = post.likedBy?.includes(userId);
+      const updatedComments = [
+        ...(post.comments || []),
+        newComment,
+      ];
 
-  const updatedLikedBy = alreadyLiked
-    ? post.likedBy.filter((id) => id !== userId)
-    : [...(post.likedBy || []), userId];
+      addComment(post.id, updatedComments)
+        .then((updatedPost) => {
+          setPosts((prevPosts) =>
+            prevPosts.map((p) =>
+              p.id === updatedPost.id ? updatedPost : p
+            )
+          );
 
-  const updatedLikes = alreadyLiked
-    ? post.likes - 1
-    : post.likes + 1;
+          setCommentText('');
+        })
+        .catch((err) => {
+          console.error('Error adding comment:', err);
+        });
+    };
 
-  likePost(post.id, {
-    likes: updatedLikes,
-    likedBy: updatedLikedBy,
-  })
-    .then((updatedPost) => {
-      setPosts((prevPosts) =>
-        prevPosts.map((p) =>
-          p.id === updatedPost.id ? updatedPost : p
-        )
-      );
-    })
-    .catch((err) => {
-      console.error('Error updating like:', err);
-    });
-};
+
+      const handleLike = (post) => {
+        const currentUser = JSON.parse(localStorage.getItem('user'));
+
+        if (!currentUser) return;
+
+        const userId = currentUser.id;
+
+        const alreadyLiked = post.likedBy?.includes(userId);
+
+        const updatedLikedBy = alreadyLiked
+          ? post.likedBy.filter((id) => id !== userId)
+          : [...(post.likedBy || []), userId];
+
+        const updatedLikes = alreadyLiked
+          ? post.likes - 1
+          : post.likes + 1;
+
+        likePost(post.id, {
+          likes: updatedLikes,
+          likedBy: updatedLikedBy,
+        })
+          .then((updatedPost) => {
+            setPosts((prevPosts) =>
+              prevPosts.map((p) =>
+                p.id === updatedPost.id ? updatedPost : p
+              )
+            );
+          })
+          .catch((err) => {
+            console.error('Error updating like:', err);
+          });
+      };
+
+      const handleSave = (post) => {
+          const currentUser = JSON.parse(localStorage.getItem('user'));
+
+          if (!currentUser) return;
+
+          const userId = currentUser.id;
+
+          const alreadySaved = post.savedBy?.includes(userId);
+
+          const updatedSavedBy = alreadySaved
+            ? post.savedBy.filter((id) => id !== userId)
+            : [...(post.savedBy || []), userId];
+
+          savePost(post.id, updatedSavedBy)
+            .then((updatedPost) => {
+              setPosts((prevPosts) =>
+                prevPosts.map((p) =>
+                  p.id === updatedPost.id ? updatedPost : p
+                )
+              );
+            })
+            .catch((err) => {
+              console.error('Error saving post:', err);
+            });
+        };
 
 
   return (
@@ -79,8 +140,29 @@ const handleLike = (post) => {
                   onClick={() => handleLike(post)}
                   style={{ cursor: 'pointer' }}
             ></i>
-              <i className="bi bi-chat"></i>
+              <i
+                  className="bi bi-chat"
+                  onClick={() =>
+                    setOpenComments(
+                      openComments === post.id ? null : post.id
+                    )
+                  }
+                  style={{ cursor: 'pointer' }}
+                ></i>
+
               <i className="bi bi-send"></i>
+
+              <i
+                className={
+                  post.savedBy?.includes(
+                    JSON.parse(localStorage.getItem('user'))?.id
+                  )
+                    ? 'bi bi-bookmark-fill'
+                    : 'bi bi-bookmark'
+                }
+                onClick={() => handleSave(post)}
+                style={{ cursor: 'pointer' }}
+              ></i>
             </div>
             {/* ── Like Count ── */}
             <div>
@@ -91,6 +173,38 @@ const handleLike = (post) => {
               <span className="fw-bold me-2">{post.user.username}</span>
               <span>{post.caption}</span>
             </div>
+
+                  {openComments === post.id && (
+                <div className="comments-section">
+
+                  {post.comments?.map((comment) => (
+                    <div key={comment.id} className="comment">
+                      <strong>{comment.username}</strong>{' '}
+                      {comment.text}
+                    </div>
+                  ))}
+
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      handleComment(post);
+                    }}
+                  >
+                    <input
+                      type="text"
+                      placeholder="Add a comment..."
+                      value={commentText}
+                      onChange={(e) => setCommentText(e.target.value)}
+                    />
+
+                    <button type="submit">
+                      Post
+                    </button>
+                  </form>
+
+                </div>
+              )}
+
           </div>
         ))
       ) : (

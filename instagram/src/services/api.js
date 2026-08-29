@@ -43,8 +43,26 @@ export const likePost=(id,data)=>
 
 
 
-    
+    // ADD COMMENT
+export const addComment = (postId, comments) =>
+  fetch(`${BASE_URL}/posts/${postId}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ comments }),
+  }).then((res) => res.json());
 
+
+//
+  export const savePost = (id, savedBy) =>
+  fetch(`${BASE_URL}/posts/${id}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ savedBy }),
+  }).then((res) => res.json());
 // ==================== PROFILE ====================
 
 // GET current user profile

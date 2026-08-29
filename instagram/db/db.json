@@ -26,11 +26,22 @@
       ],
       "comments": [
         {
-          "username": "alex",
+          "id": "c1",
+          "userId": "1",
+          "username": "johndoe",
           "text": "Awesome view!"
+        },
+        {
+          "id": "83e3d3a1-5c37-4b66-958e-92bd07534a96",
+          "userId": "1",
+          "username": "johndoe",
+          "text": "interested"
         }
       ],
-      "timestamp": "2 hours ago"
+      "timestamp": "2 hours ago",
+      "savedBy": [
+        "1"
+      ]
     },
     {
       "id": "2",
@@ -43,8 +54,16 @@
       "caption": "Coffee and code ☕💻",
       "likes": 230,
       "likedBy": [],
-      "comments": [],
-      "timestamp": "5 hours ago"
+      "comments": [
+        {
+          "id": "b1a52a84-b13c-4fb7-8131-21b417d54639",
+          "userId": "1",
+          "username": "johndoe",
+          "text": "beautiful"
+        }
+      ],
+      "timestamp": "5 hours ago",
+      "savedBy": []
     },
     {
       "user": {
