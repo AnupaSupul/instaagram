@@ -10,6 +10,7 @@ function Posts() {
   const [sharePostId, setSharePostId] = useState(null);
   const [editingPostId, setEditingPostId] = useState(null);
   const [editCaption, setEditCaption] = useState('');
+  const [openMenuId, setOpenMenuId] = useState(null);
 
   useEffect(() => {
     fetchPosts()
@@ -211,10 +212,39 @@ function Posts() {
             {/* ── Like Count ── */}
  
                 <div className="post-options">
-                  <button onClick={() => handleEdit(post)}>
-                    Edit
-                  </button>
-                </div>
+                    <button
+                      className="menu-button"
+                      onClick={() =>
+                        setOpenMenuId(
+                          openMenuId === post.id ? null : post.id
+                        )
+                      }
+                    >
+                      <i className="bi bi-three-dots"></i>
+                    </button>
+
+                    {openMenuId === post.id && (
+                      <div className="post-menu">
+                        <button
+                          onClick={() => {
+                            handleEdit(post);
+                            setOpenMenuId(null);
+                          }}
+                        >
+                          Edit
+                        </button>
+
+                        <button
+                          onClick={() => {
+                            setOpenMenuId(null);
+                            // Delete will be connected here
+                          }}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    )}
+                  </div>
 
             <div className="like-count">
               <strong>{post.likes} likes</strong>

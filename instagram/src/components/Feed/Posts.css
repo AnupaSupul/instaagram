@@ -330,3 +330,88 @@
     flex-basis: 100%;
   }
 }
+
+/* =========================
+   POST OPTIONS MENU
+========================= */
+
+.post-options {
+  position: absolute;
+  top: 8px;
+  right: 4px;
+  z-index: 10;
+}
+
+.menu-button {
+  width: 36px;
+  height: 36px;
+
+  border: none;
+  background: transparent;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+}
+
+.menu-button i {
+  font-size: 20px;
+  color: #262626;
+}
+
+.menu-button:hover {
+  background: #f2f2f2;
+}
+
+
+/* Dropdown */
+
+.post-menu {
+  position: absolute;
+  top: 42px;
+  right: 0;
+
+  width: 140px;
+
+  background: white;
+
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+
+  overflow: hidden;
+
+  z-index: 20;
+}
+
+.post-menu button {
+  width: 100%;
+
+  padding: 11px 14px;
+
+  border: none;
+  background: white;
+
+  text-align: left;
+
+  font-size: 14px;
+
+  cursor: pointer;
+}
+
+.post-menu button:hover {
+  background: #f5f5f5;
+}
+
+.post-menu button:first-child {
+  font-weight: 500;
+}
+
+.post-menu button:last-child {
+  color: #ed4956;
+}
