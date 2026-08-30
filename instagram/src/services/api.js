@@ -30,20 +30,20 @@ export const deletePost = (id) =>
   });
 
 
-  // LIKE / UNLIKE POST
-export const likePost=(id,data)=>
+// LIKE / UNLIKE POST
+export const likePost = (id, data) =>
   fetch(`${BASE_URL}/posts/${id}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
-  },
+    },
     body: JSON.stringify(data),
   })
     .then((res) => res.json());
 
 
 
-    // ADD COMMENT
+// ADD COMMENT
 export const addComment = (postId, comments) =>
   fetch(`${BASE_URL}/posts/${postId}`, {
     method: 'PATCH',
@@ -55,7 +55,7 @@ export const addComment = (postId, comments) =>
 
 
 // savePost
-  export const savePost = (id, savedBy) =>
+export const savePost = (id, savedBy) =>
   fetch(`${BASE_URL}/posts/${id}`, {
     method: 'PATCH',
     headers: {
@@ -65,7 +65,7 @@ export const addComment = (postId, comments) =>
   }).then((res) => res.json());
 
 
-  // UPDATE POST
+// UPDATE POST
 export const updatePost = (id, data) =>
   fetch(`${BASE_URL}/posts/${id}`, {
     method: 'PATCH',
@@ -75,30 +75,24 @@ export const updatePost = (id, data) =>
     body: JSON.stringify(data),
   }).then((res) => res.json());
 
-  
- 
+
+
 // ==================== PROFILE ====================
 
-// GET current user profile
-export const fetchUserProfile = () =>
-  fetch(`${BASE_URL}/userProfile`)
-    .then((res) => res.json());
-
-// UPDATE bio
-export const updateBio = (bio) =>
-  fetch(`${BASE_URL}/userProfile`, {
+// PATCH bio for logged-in user
+export const updateUserBio = (userId, bio) =>
+  fetch(`${BASE_URL}/users/${userId}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ bio }),
-  })
-    .then((res) => res.json());
+  }).then((res) => res.json());
 
 
 // ==================== SUGGESTIONS ====================
 
-// GET profile shown in suggestions
+// GET profile shown in suggestions sidebar
 export const fetchProfile = () =>
   fetch(`${BASE_URL}/profile`)
     .then((res) => res.json());
@@ -120,11 +114,15 @@ export const fetchStories = () =>
 // ==================== AUTH ====================
 
 // LOGIN
-export const loginUser = (username, password) =>
-  fetch(
-    `${BASE_URL}/users?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`
-  )
-    .then((res) => res.json());
+export const loginUser = async (username, password) => {
+  const res = await fetch(
+    `${BASE_URL}/users?username=${encodeURIComponent(username)}`
+  );
+
+  const users = await res.json();
+
+  return users.filter((user) => user.password === password);
+};
 
 // CHECK USERNAME
 export const checkUsername = (username) =>
@@ -143,3 +141,33 @@ export const createUser = (user) =>
     body: JSON.stringify(user),
   })
     .then((res) => res.json());
+
+
+// ==================== NOTIFICATIONS ====================
+
+// GET notifications for a user — fetch all and filter client-side
+// (json-server ?toUserId= query can silently fail with certain ID formats)
+export const fetchNotifications = (userId) =>
+  fetch(`${BASE_URL}/notifications`)
+    .then((res) => res.json())
+    .then((all) => all.filter((n) => n.toUserId === userId));
+
+// CREATE notification
+export const createNotification = (notification) =>
+  fetch(`${BASE_URL}/notifications`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(notification),
+  }).then((res) => res.json());
+
+// MARK notification as read
+export const markNotificationRead = (id) =>
+  fetch(`${BASE_URL}/notifications/${id}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ read: true }),
+  }).then((res) => res.json());

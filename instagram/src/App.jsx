@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { createBrowserRouter, RouterProvider,Navigate  } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, Navigate, Outlet } from 'react-router-dom';
 
 import Sidebar from './components/Sidebar/Sidebar';
 import Feed from './components/Feed/Feed';
@@ -11,36 +11,29 @@ import CreatePostModal from './components/Feed/CreatePostModal';
 
 import Login from './pages/Login/Login';
 import Signup from './pages/Login/Signup';
+import Notifications from './pages/Notifications/Notifications';
 
 import './App.css';
 
-// Layout component — the main Instagram page
-// src/App.jsx
-function Layout() {
-    const [showCreate, setShowCreate] = useState(false);
-
+// Auth guard — redirects to /login if no user in localStorage
+function RequireAuth() {
   const user = JSON.parse(localStorage.getItem('user'));
+  if (!user) return <Navigate to="/login" replace />;
+  return <Outlet />;
+}
 
-if (!user) {
-    return <Navigate to="/login" replace />;  // redirect if not logged in
-  }
+// Home layout with Sidebar + Feed + Suggestions
+function HomeLayout() {
+  const [showCreate, setShowCreate] = useState(false);
   return (
     <>
-      <div
-        className="d-flex"
-        style={{ maxWidth: '935px', margin: '0 auto' }}
-      >
+      <div className="d-flex" style={{ maxWidth: '935px', margin: '0 auto' }}>
         <Sidebar onCreate={() => setShowCreate(true)} />
-
         <Feed />
-
         <Suggestions />
       </div>
-
       {showCreate && (
-        <CreatePostModal
-          onClose={() => setShowCreate(false)}
-        />
+        <CreatePostModal onClose={() => setShowCreate(false)} />
       )}
     </>
   );
@@ -49,16 +42,17 @@ if (!user) {
 // Router config
 const router = createBrowserRouter([
   {
-    path: '/',element: <Layout />,
+    // All authenticated routes live under RequireAuth
+    element: <RequireAuth />,
+    children: [
+      { path: '/', element: <HomeLayout /> },
+      { path: '/profile', element: <Profile /> },
+      { path: '/notifications', element: <Notifications /> },
+      { path: '/story/:id', element: <StoryView /> },
+    ],
   },
-  {
-    path: '/story/:id',element: <StoryView />,
-  },
-  {
-    path: '/profile',element: <Profile />,
-  },
-  { path: '/login',     element: <Login /> },      // ← new
-  { path: '/signup',    element: <Signup /> },      // ← new
+  { path: '/login', element: <Login /> },
+  { path: '/signup', element: <Signup /> },
 ]);
 
 function App() {

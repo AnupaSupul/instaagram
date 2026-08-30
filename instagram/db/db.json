@@ -8,12 +8,13 @@
       "password": "password123",
       "profilePicture": "https://picsum.photos/id/1025/200/200",
       "bio": "Photographer & Traveller 📸"
-    },{
+    },
+    {
       "id": "2",
       "email": "anupa@gmail.com",
       "fullName": "Anupa",
       "username": "anupa",
-      "password": "password123",
+      "password": "111111",
       "profilePicture": "https://imgs.search.brave.com/wc58ueVmuilLcV_HzzLvr5vPf0bMTKhOFm0-9wsD4e0/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzL2ZlL2Yz/L2UwL2ZlZjNlMGUz/MmZiNzM0NTdlZTMx/MzI3MjBlZTIxODU4/LmpwZw",
       "bio": " Traveller 📸"
     }
@@ -22,15 +23,15 @@
     {
       "id": "1",
       "user": {
-        "id": "u1",
-        "username": "john_doe",
+        "id": "1",
+        "username": "johndoe",
         "profile_pic": "../src/assets/male1.webp"
       },
       "image": "../src/assets/post1.webp",
       "caption": "Enjoying the sunset! 🌅",
       "likes": 121,
       "likedBy": [
-        "1"
+        "2"
       ],
       "comments": [
         {
@@ -54,14 +55,17 @@
     {
       "id": "2",
       "user": {
-        "id": "u2",
-        "username": "jane_smith",
+        "id": "2",
+        "username": "anupa",
         "profile_pic": "../src/assets/male2l.webp"
       },
       "image": "../src/assets/post2.webp",
       "caption": "Coffee and code ☕💻",
-      "likes": 230,
-      "likedBy": [],
+      "likes": 232,
+      "likedBy": [
+        "2",
+        "1"
+      ],
       "comments": [
         {
           "id": "b1a52a84-b13c-4fb7-8131-21b417d54639",
@@ -81,8 +85,10 @@
       },
       "image": "../src/assets/male1.webp",
       "caption": "ss",
-      "likes": 0,
-      "likedBy": [],
+      "likes": 1,
+      "likedBy": [
+        "2"
+      ],
       "comments": [],
       "timestamp": "2026-08-17T11:20:22.696Z",
       "id": "Zp3xbaOSxBw"
@@ -95,10 +101,146 @@
       },
       "image": "https://imgs.search.brave.com/HznN-hniF_axKp9_DxKNwMwrsdVfjokadvpN7SM4chc/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzBlL2Nh/L2U0LzBlY2FlNDgy/MDFiOWY5MjAxMjVk/Y2ZlNGVhMTBhMDg2/LmpwZw",
       "caption": "sport\n",
-      "likes": 0,
-      "comments": [],
+      "likes": 2,
+      "comments": [
+        {
+          "id": "ac11888f-608a-486b-b3a3-5539f82d84c1",
+          "userId": "2",
+          "username": "anupa",
+          "text": "wooh"
+        }
+      ],
       "timestamp": "2026-08-18T07:35:28.811Z",
-      "id": "OBY9Nbc84o0"
+      "id": "OBY9Nbc84o0",
+      "likedBy": [
+        "1",
+        "2"
+      ]
+    },
+    {
+      "user": {
+        "id": "1",
+        "username": "johndoe",
+        "profile_pic": "https://picsum.photos/id/1025/200/200"
+      },
+      "image": "https://imgs.search.brave.com/ZeTE6MZxTmhQV7O_G5s1sOBwNaad60oEZ_COKfEyJPk/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9zdGF0/aWMudmVjdGVlenku/Y29tL3N5c3RlbS9y/ZXNvdXJjZXMvdGh1/bWJuYWlscy8wNjgv/MzM0Lzk4OC9zbWFs/bC9nYW1lci1oYW5k/LWhvbGRpbmctaWxs/dW1pbmF0ZWQtZ2Ft/ZS1jb250cm9sbGVy/LWluLWRhcmstcm9v/bS1mb2N1c2VkLWFu/ZC1pbnRlbnNlLWF0/bW9zcGhlcmUtcGhv/dG8uanBlZw",
+      "caption": "game day",
+      "likes": 1,
+      "comments": [
+        {
+          "id": "c3fb8bf7-4607-4e20-8864-c8e040c3d833",
+          "userId": "1",
+          "username": "johndoe",
+          "text": "hope to see"
+        }
+      ],
+      "timestamp": "2026-08-30T10:02:00.590Z",
+      "id": "M3T9oFcUVT4",
+      "likedBy": [
+        "1"
+      ]
+    },
+    {
+      "user": {
+        "id": "2",
+        "username": "anupa",
+        "profile_pic": "https://imgs.search.brave.com/wc58ueVmuilLcV_HzzLvr5vPf0bMTKhOFm0-9wsD4e0/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzL2ZlL2Yz/L2UwL2ZlZjNlMGUz/MmZiNzM0NTdlZTMx/MzI3MjBlZTIxODU4/LmpwZw"
+      },
+      "image": "https://imgs.search.brave.com/Ul4IkqypFiYABneu8U3NSrqhJadr_YhH0Aev1kBETAU/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTQ0/Mzg2NDY3OS9waG90/by9mZWVsLXRoZS1i/ZWF1dHktb2YtbmF0/dXJlLXdpdGgtYWxs/LXlvdXItc2Vuc2Vz/LmpwZz9zPTYxMng2/MTImdz0wJms9MjAm/Yz1wSEFaU0tod0FO/aVZDcXNDME9vT3B1/OVNMZ3FoS2lIWUdB/eG5aOExkd3FFPQ",
+      "caption": "nature",
+      "likes": 1,
+      "comments": [
+        {
+          "id": "a71e48eb-fe3b-44ce-8a4c-25f3f0a33444",
+          "userId": "1",
+          "username": "johndoe",
+          "text": "woow"
+        }
+      ],
+      "timestamp": "2026-08-30T13:38:06.895Z",
+      "id": "VIX3_GhGaH0",
+      "likedBy": [
+        "2"
+      ]
+    }
+  ],
+  "notifications": [
+    {
+      "type": "like",
+      "fromUserId": "1",
+      "fromUsername": "johndoe",
+      "toUserId": "2",
+      "postId": "2",
+      "message": "liked your post",
+      "timestamp": "2026-08-30T12:02:45.170Z",
+      "read": true,
+      "id": "iF_NMgxTRJ8"
+    },
+    {
+      "type": "like",
+      "fromUserId": "2",
+      "fromUsername": "anupa",
+      "toUserId": "1",
+      "postId": "1",
+      "message": "liked your post",
+      "timestamp": "2026-08-30T12:02:47.171Z",
+      "read": true,
+      "id": "TEPD8aDN_1M"
+    },
+    {
+      "type": "like",
+      "fromUserId": "2",
+      "fromUsername": "anupa",
+      "toUserId": "1",
+      "postId": "OBY9Nbc84o0",
+      "message": "liked your post",
+      "timestamp": "2026-08-30T12:02:49.783Z",
+      "read": true,
+      "id": "vwTR1suwjUI"
+    },
+    {
+      "type": "like",
+      "fromUserId": "1",
+      "fromUsername": "johndoe",
+      "toUserId": "2",
+      "postId": "2",
+      "message": "liked your post",
+      "timestamp": "2026-08-30T13:30:49.751Z",
+      "read": true,
+      "id": "arNVjz-oquc"
+    },
+    {
+      "type": "like",
+      "fromUserId": "2",
+      "fromUsername": "anupa",
+      "toUserId": "1",
+      "postId": "OBY9Nbc84o0",
+      "message": "liked your post",
+      "timestamp": "2026-08-30T13:38:52.281Z",
+      "read": true,
+      "id": "Mwr45B2ExbY"
+    },
+    {
+      "type": "like",
+      "fromUserId": "1",
+      "fromUsername": "johndoe",
+      "toUserId": "2",
+      "postId": "VIX3_GhGaH0",
+      "message": "liked your post",
+      "timestamp": "2026-08-30T13:39:02.375Z",
+      "read": true,
+      "id": "UGJX_RBbyMA"
+    },
+    {
+      "type": "like",
+      "fromUserId": "1",
+      "fromUsername": "johndoe",
+      "toUserId": "2",
+      "postId": "VIX3_GhGaH0",
+      "message": "liked your post",
+      "timestamp": "2026-08-30T14:12:36.017Z",
+      "read": true,
+      "id": "nvWxkGW01wQ"
     }
   ],
   "userProfile": {

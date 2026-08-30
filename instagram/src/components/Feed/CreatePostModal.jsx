@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import './CreatePostModal.css';
 import {
-  fetchUserProfile,
   createPost,
 } from '../../services/api';
 
@@ -10,11 +9,13 @@ function CreatePostModal({ onClose }) {
   const [caption, setCaption] = useState('');
   const [image, setImage] = useState('');
 
-  useEffect(() => {
-    fetchUserProfile()
-      .then((data) => setUser(data))
-      .catch((err) => console.error('Error fetching profile:', err));
-  }, []);
+    useEffect(() => {
+      const currentUser = JSON.parse(localStorage.getItem('user'));
+
+      if (currentUser) {
+        setUser(currentUser);
+      }
+    }, []);
 
   const handleCreatePost = (e) => {
     e.preventDefault();

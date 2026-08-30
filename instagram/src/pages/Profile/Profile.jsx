@@ -1,80 +1,89 @@
 // src/Profile.jsx
 import { useEffect, useState } from 'react';
 import './Profile.css';
-import{fetchUserProfile,deletePost,createPost,fetchUserPosts,updateBio,fetchPosts} from '../../services/api';
+import { deletePost, createPost, fetchPosts, updateUserBio } from '../../services/api';
 
 export default function Profile() {
-  const [user, setUser]               = useState(null);
-  const [userPosts, setUserPosts]     = useState([]);
-  const [isEditing, setIsEditing]     = useState(false);
-  const [bioInput, setBioInput]       = useState('');
+  const [user, setUser] = useState(null);
+  const [userPosts, setUserPosts] = useState([]);
+  const [isEditing, setIsEditing] = useState(false);
+  const [bioInput, setBioInput] = useState('');
   const [newPostCaption, setNewPostCaption] = useState('');
-  const [newPostImage, setNewPostImage]     = useState('');
- useEffect(() => {
-  // GET /userProfile
-  fetchUserProfile()
-    .then((data) => {
-      setUser(data);
-      setBioInput(data.bio || '');
-    })
-    .catch((err) =>
-      console.error('Error fetching profile:', err)
-    );
+  const [newPostImage, setNewPostImage] = useState('');
+  useEffect(() => {
+    const currentUser = JSON.parse(localStorage.getItem('user'));
 
-  fetchPosts()
-    .then((data) => {
-      setUserPosts(data);
-    })
-    .catch((err) =>
-      console.error('Error fetching posts:', err)
-    );
-}, []);
+    if (!currentUser) return;
+
+    setUser(currentUser);
+    setBioInput(currentUser.bio || '');
+
+    fetchPosts()
+      .then((data) => {
+        const myPosts = data.filter(
+          (post) => post.user?.id === currentUser.id
+        );
+
+        setUserPosts(myPosts);
+      })
+      .catch((err) =>
+        console.error('Error fetching posts:', err)
+      );
+  }, []);
   // UPDATE
   const handleUpdateBio = (e) => {
-  e.preventDefault();   // prevent page reload on form submit
+    e.preventDefault();
 
-    updateBio(bioInput)
-    .then((updatedUser) => {
-      setUser(updatedUser);      // update local state with server response
-      setIsEditing(false);       // close the edit form
-    })
-    .catch((err) => console.error('Error updating bio:', err));
-};
+    updateUserBio(user.id, bioInput)
+      .then((updatedUser) => {
+        setUser(updatedUser);
+
+        localStorage.setItem(
+          'user',
+          JSON.stringify(updatedUser)
+        );
+
+        setIsEditing(false);
+      })
+      .catch((err) => {
+        console.error('Error updating bio:', err);
+      });
+  };
   // CREATE
   const handleCreatePost = (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-const newPost = {
-  user: {
-    id: user.id,
-    username: user.username,
-    profile_pic: user.profilePicture,
-  },
-  image: newPostImage || 'https://picsum.photos/600/600',
-  caption: newPostCaption,
-  likes: 0,
-  comments: [],
-  timestamp: new Date().toISOString(),
-};
+    const newPost = {
+      user: {
+        id: user.id,
+        username: user.username,
+        profile_pic: user.profilePicture,
+      },
+      image: newPostImage || 'https://picsum.photos/600/600',
+      caption: newPostCaption,
+      likes: 0,
+      comments: [],
+      timestamp: new Date().toISOString(),
+    };
     createPost(newPost)
-    .then((createdPost) => {
-      setUserPosts([createdPost, ...userPosts]);   // prepend to top
-      setNewPostCaption('');
-      setNewPostImage('');
-    })
-    .catch((err) => console.error('Error creating post:', err));
-};
+      .then((createdPost) => {
+        setUserPosts([createdPost, ...userPosts]);   // prepend to top
+        setNewPostCaption('');
+        setNewPostImage('');
+      })
+      .catch((err) => console.error('Error creating post:', err));
+  };
   // DELETE
   const handleDeletePost = (postId) => {
     deletePost(postId)
-    .then((res) => {
-      if (res.ok) {
-        // Remove from local state — no refetch
-        setUserPosts(userPosts.filter((post) => post.id !== postId));
-      }
-    })
-    .catch((err) => console.error('Error deleting post:', err));
-};
+      .then((res) => {
+        if (res.ok) {
+          // Remove from local state — no refetch
+          setUserPosts(userPosts.filter((post) => post.id !== postId));
+        }
+      })
+      .catch((err) => console.error('Error deleting post:', err));
+  };
   if (!user) return <div>Loading profile...</div>;
   return (
     <div className="profile-container">

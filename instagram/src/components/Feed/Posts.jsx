@@ -1,6 +1,6 @@
 // src/Posts.jsx
 import { useState, useEffect } from 'react';
-import { fetchPosts,likePost,addComment,savePost,updatePost,deletePost } from '../../services/api';
+import { fetchPosts,likePost,addComment,savePost,updatePost,deletePost,createNotification } from '../../services/api';
 import './Posts.css';
 
 function Posts() {
@@ -77,88 +77,102 @@ function Posts() {
 
 
       const handleLike = (post) => {
-        const currentUser = JSON.parse(localStorage.getItem('user'));
+              const currentUser = JSON.parse(localStorage.getItem('user'));
 
-        if (!currentUser) return;
+              if (!currentUser) return;
 
-        const userId = currentUser.id;
+              const userId = currentUser.id;
 
-        const alreadyLiked = post.likedBy?.includes(userId);
+              const alreadyLiked = post.likedBy?.includes(userId);
 
-        const updatedLikedBy = alreadyLiked
-          ? post.likedBy.filter((id) => id !== userId)
-          : [...(post.likedBy || []), userId];
+              const updatedLikedBy = alreadyLiked
+                ? post.likedBy.filter((id) => id !== userId)
+                : [...(post.likedBy || []), userId];
 
-        const updatedLikes = alreadyLiked
-          ? post.likes - 1
-          : post.likes + 1;
+              const updatedLikes = alreadyLiked
+                ? post.likes - 1
+                : post.likes + 1;
 
-        likePost(post.id, {
-          likes: updatedLikes,
-          likedBy: updatedLikedBy,
-        })
-          .then((updatedPost) => {
-            setPosts((prevPosts) =>
-              prevPosts.map((p) =>
-                p.id === updatedPost.id ? updatedPost : p
-              )
-            );
-          })
-          .catch((err) => {
-            console.error('Error updating like:', err);
-          });
-      };
-
-      const handleSave = (post) => {
-          const currentUser = JSON.parse(localStorage.getItem('user'));
-
-          if (!currentUser) return;
-
-          const userId = currentUser.id;
-
-          const alreadySaved = post.savedBy?.includes(userId);
-
-          const updatedSavedBy = alreadySaved
-            ? post.savedBy.filter((id) => id !== userId)
-            : [...(post.savedBy || []), userId];
-
-          savePost(post.id, updatedSavedBy)
-            .then((updatedPost) => {
-              setPosts((prevPosts) =>
-                prevPosts.map((p) =>
-                  p.id === updatedPost.id ? updatedPost : p
-                )
-              );
-            })
-            .catch((err) => {
-              console.error('Error saving post:', err);
-            });
-        };
-
-
-        const handleEdit = (post) => {
-          setEditingPostId(post.id);
-          setEditCaption(post.caption);
-        };
-
-        const handleUpdatePost = (post) => {
-            updatePost(post.id, {
-              caption: editCaption,
-            })
-              .then((updatedPost) => {
-                setPosts((prevPosts) =>
-                  prevPosts.map((p) =>
-                    p.id === updatedPost.id ? updatedPost : p
-                  )
-                );
-
-                setEditingPostId(null);
-                setEditCaption('');
+              likePost(post.id, {
+                likes: updatedLikes,
+                likedBy: updatedLikedBy,
               })
-              .catch((err) => {
-                console.error('Error updating post:', err);
-              });
-          };
+                .then((updatedPost) => {
+                  setPosts((prevPosts) =>
+                    prevPosts.map((p) =>
+                      p.id === updatedPost.id ? updatedPost : p
+                    )
+                  );
+
+                  // Create notification when another user likes the post
+                  if (!alreadyLiked && post.user.id !== currentUser.id) {
+                    return createNotification({
+                      type: 'like',
+                      fromUserId: currentUser.id,
+                      fromUsername: currentUser.username,
+                      toUserId: post.user.id,
+                      postId: post.id,
+                      message: 'liked your post',
+                      timestamp: new Date().toISOString(),
+                      read: false,
+                    });
+                  }
+                })
+                .catch((err) => {
+                  console.error('Error updating like:', err);
+                });
+            };
+
+                  const handleSave = (post) => {
+                      const currentUser = JSON.parse(localStorage.getItem('user'));
+
+                      if (!currentUser) return;
+
+                      const userId = currentUser.id;
+
+                      const alreadySaved = post.savedBy?.includes(userId);
+
+                      const updatedSavedBy = alreadySaved
+                        ? post.savedBy.filter((id) => id !== userId)
+                        : [...(post.savedBy || []), userId];
+
+                      savePost(post.id, updatedSavedBy)
+                        .then((updatedPost) => {
+                          setPosts((prevPosts) =>
+                            prevPosts.map((p) =>
+                              p.id === updatedPost.id ? updatedPost : p
+                            )
+                          );
+                        })
+                        .catch((err) => {
+                          console.error('Error saving post:', err);
+                        });
+                    };
+
+
+                    const handleEdit = (post) => {
+                      setEditingPostId(post.id);
+                      setEditCaption(post.caption);
+                    };
+
+                    const handleUpdatePost = (post) => {
+                        updatePost(post.id, {
+                          caption: editCaption,
+                        })
+                          .then((updatedPost) => {
+                            setPosts((prevPosts) =>
+                              prevPosts.map((p) =>
+                                p.id === updatedPost.id ? updatedPost : p
+                              )
+                            );
+
+                            setEditingPostId(null);
+                            setEditCaption('');
+                          })
+                          .catch((err) => {
+                            console.error('Error updating post:', err);
+                          });
+                      };
 
 
   return (

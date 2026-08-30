@@ -172,3 +172,12 @@
     font-size: 21px;
   }
 }
+
+/* LOGOUT */
+.sidebar-logout {
+  color: #cc0000;
+}
+
+.sidebar-logout:hover {
+  background: #fff0f0 !important;
+}

@@ -13,29 +13,28 @@ function Login() {
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
-    e.preventDefault();
-    setError('');
-    setLoading(true);
-    
-    try {
-      // Check credentials against json-server
-      const res = await fetch(
-        `http://localhost:3000/users?username=${username}&password=${password}`
+  e.preventDefault();
+  setError('');
+  setLoading(true);
+
+  try {
+    const users = await loginUser(username, password);
+
+    if (users.length > 0) {
+      localStorage.setItem('user', JSON.stringify(users[0]));
+      navigate('/');
+    } else {
+      setError(
+        'Sorry, your password was incorrect. Please double-check your password.'
       );
-      const users = await res.json();
-      if (users.length > 0) {
-        // User found - store in localStorage and redirect
-        localStorage.setItem('user', JSON.stringify(users[0]));
-        navigate('/');
-      } else {
-        setError('Sorry, your password was incorrect. Please double-check your password.');
-      }
-    } catch (err) {
-      setError('Something went wrong. Please try again.');
-    } finally {
-      setLoading(false);
     }
-  };
+  } catch (err) {
+    console.error('Login error:', err);
+    setError('Something went wrong. Please try again.');
+  } finally {
+    setLoading(false);
+  }
+};
   return (
     <div className="auth-page">
       <div className="auth-card">

@@ -1,8 +1,15 @@
 import instagramTextLogo from '../../assets/instagram.webp';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import './Sidebar.css';
 
 function Sidebar({ onCreate }) {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    navigate('/login');
+  };
+
   return (
     <aside className="sidebar">
 
@@ -73,6 +80,14 @@ function Sidebar({ onCreate }) {
         <button className="sidebar-item sidebar-button">
           <i className="bi bi-list"></i>
           <span>More</span>
+        </button>
+
+        <button
+          className="sidebar-item sidebar-button sidebar-logout"
+          onClick={handleLogout}
+        >
+          <i className="bi bi-box-arrow-left"></i>
+          <span>Logout</span>
         </button>
 
       </div>
