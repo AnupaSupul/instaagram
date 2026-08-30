@@ -130,10 +130,17 @@ export default function Profile() {
         </form>
       </div>
       {/* ── Posts Grid ── */}
+      <div className="profile-posts-header">
+        <i className="bi bi-grid3x3"></i>
+        <span>POSTS ({userPosts.length})</span>
+      </div>
       <div className="profile-grid">
+        {userPosts.length === 0 && (
+          <p className="profile-no-posts">No posts yet.</p>
+        )}
         {userPosts.map((post) => (
           <div key={post.id} className="grid-item">
-            <img src={post.postImage} alt={post.caption} />
+            <img src={post.image} alt={post.caption} />
             <div className="grid-overlay">
               <p>{post.caption}</p>
               <button className="delete-btn" onClick={() => handleDeletePost(post.id)}>

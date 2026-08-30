@@ -148,7 +148,7 @@
       },
       "image": "https://imgs.search.brave.com/Ul4IkqypFiYABneu8U3NSrqhJadr_YhH0Aev1kBETAU/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTQ0/Mzg2NDY3OS9waG90/by9mZWVsLXRoZS1i/ZWF1dHktb2YtbmF0/dXJlLXdpdGgtYWxs/LXlvdXItc2Vuc2Vz/LmpwZz9zPTYxMng2/MTImdz0wJms9MjAm/Yz1wSEFaU0tod0FO/aVZDcXNDME9vT3B1/OVNMZ3FoS2lIWUdB/eG5aOExkd3FFPQ",
       "caption": "nature",
-      "likes": 1,
+      "likes": 2,
       "comments": [
         {
           "id": "a71e48eb-fe3b-44ce-8a4c-25f3f0a33444",
@@ -160,7 +160,8 @@
       "timestamp": "2026-08-30T13:38:06.895Z",
       "id": "VIX3_GhGaH0",
       "likedBy": [
-        "2"
+        "2",
+        "1"
       ]
     }
   ],
@@ -241,6 +242,17 @@
       "timestamp": "2026-08-30T14:12:36.017Z",
       "read": true,
       "id": "nvWxkGW01wQ"
+    },
+    {
+      "type": "like",
+      "fromUserId": "1",
+      "fromUsername": "johndoe",
+      "toUserId": "2",
+      "postId": "VIX3_GhGaH0",
+      "message": "liked your post",
+      "timestamp": "2026-08-30T14:14:06.471Z",
+      "read": true,
+      "id": "Th_c_EnUp2s"
     }
   ],
   "userProfile": {
