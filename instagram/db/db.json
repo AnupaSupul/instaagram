@@ -85,40 +85,12 @@
         "username": "johndoe",
         "profile_pic": "https://picsum.photos/id/1025/200/200"
       },
-      "image": "https://picsum.photos/id/1025/100/100",
-      "caption": "saraaaa",
-      "likes": 0,
-      "likedBy": [],
-      "comments": [],
-      "timestamp": "2026-08-18T07:30:21.022Z",
-      "id": "O6xb3nKqCO8"
-    },
-    {
-      "user": {
-        "id": "1",
-        "username": "johndoe",
-        "profile_pic": "https://picsum.photos/id/1025/200/200"
-      },
       "image": "https://imgs.search.brave.com/HznN-hniF_axKp9_DxKNwMwrsdVfjokadvpN7SM4chc/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzBlL2Nh/L2U0LzBlY2FlNDgy/MDFiOWY5MjAxMjVk/Y2ZlNGVhMTBhMDg2/LmpwZw",
       "caption": "sport\n",
       "likes": 0,
       "comments": [],
       "timestamp": "2026-08-18T07:35:28.811Z",
       "id": "OBY9Nbc84o0"
-    },
-    {
-      "user": {
-        "id": "1",
-        "username": "johndoe",
-        "profile_pic": "https://picsum.photos/id/1025/200/200"
-      },
-      "image": "https://imgs.search.brave.com/RTmz8v152btdX_pVrslHGwZbfrXxq9E9N9lHjr2vnw0/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTM5/MjQ5ODM5MC9waG90/by9wZXJzb24tcHV0/cy1sZXR0ZXItcy1p/bi13b3JkLWJ1c2lu/ZXNzLmpwZz9zPTYx/Mng2MTImdz0wJms9/MjAmYz1oTDdWeGY3/SGwwbHVfXzVBTHhm/cUNKQmxJWkdPbEVU/RlJGTnJjS3Eya0Fz/PQ",
-      "caption": "business",
-      "likes": 0,
-      "likedBy": [],
-      "comments": [],
-      "timestamp": "2026-08-25T22:49:53.009Z",
-      "id": "K8-IfN6GsZ4"
     }
   ],
   "userProfile": {

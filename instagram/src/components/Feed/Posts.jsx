@@ -1,6 +1,6 @@
 // src/Posts.jsx
 import { useState, useEffect } from 'react';
-import { fetchPosts,likePost,addComment,savePost,updatePost } from '../../services/api';
+import { fetchPosts,likePost,addComment,savePost,updatePost,deletePost } from '../../services/api';
 import './Posts.css';
 
 function Posts() {
@@ -18,6 +18,19 @@ function Posts() {
       .catch((err) => console.log('Error fetching posts:', err));
   }, []);
 
+    const handleDelete = (postId) => {
+        deletePost(postId)
+          .then((res) => {
+            if (res.ok) {
+              setPosts((prevPosts) =>
+                prevPosts.filter((post) => post.id !== postId)
+              );
+            }
+          })
+          .catch((err) => {
+            console.error('Error deleting post:', err);
+          });
+      };  
 
     const handleShare = async (post) => {
       const shareUrl = `${window.location.origin}/post/${post.id}`;
@@ -235,13 +248,13 @@ function Posts() {
                         </button>
 
                         <button
-                          onClick={() => {
-                            setOpenMenuId(null);
-                            // Delete will be connected here
-                          }}
-                        >
-                          Delete
-                        </button>
+                            onClick={() => {
+                              handleDelete(post.id);
+                              setOpenMenuId(null);
+                            }}
+                          >
+                            Delete
+                          </button>
                       </div>
                     )}
                   </div>

@@ -76,6 +76,7 @@ export const updatePost = (id, data) =>
   }).then((res) => res.json());
 
   
+ 
 // ==================== PROFILE ====================
 
 // GET current user profile
