@@ -8,6 +8,14 @@
       "password": "password123",
       "profilePicture": "https://picsum.photos/id/1025/200/200",
       "bio": "Photographer & Traveller 📸"
+    },{
+      "id": "2",
+      "email": "anupa@gmail.com",
+      "fullName": "Anupa",
+      "username": "anupa",
+      "password": "password123",
+      "profilePicture": "https://imgs.search.brave.com/wc58ueVmuilLcV_HzzLvr5vPf0bMTKhOFm0-9wsD4e0/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzL2ZlL2Yz/L2UwL2ZlZjNlMGUz/MmZiNzM0NTdlZTMx/MzI3MjBlZTIxODU4/LmpwZw",
+      "bio": " Traveller 📸"
     }
   ],
   "posts": [
