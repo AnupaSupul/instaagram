@@ -303,6 +303,14 @@
       "receiverId": "2",
       "text": "i was there too",
       "timestamp": "2026-08-30T17:39:46.170Z"
+    },
+    {
+      "id": "5QhPE23cIiM",
+      "type": "chat",
+      "senderId": "2",
+      "receiverId": "1",
+      "text": "really lol",
+      "timestamp": "2026-08-30T17:42:09.821Z"
     }
   ],
   "userProfile": {
