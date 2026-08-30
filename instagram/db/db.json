@@ -279,6 +279,30 @@
       "receiverId": "2",
       "text": "where hv u been",
       "timestamp": "2026-08-30T17:18:41.712Z"
+    },
+    {
+      "id": "bOuojaaORvc",
+      "type": "chat",
+      "senderId": "2",
+      "receiverId": "1",
+      "text": "i was in uni",
+      "timestamp": "2026-08-30T17:39:19.895Z"
+    },
+    {
+      "id": "Z_TRS_9-1pA",
+      "type": "chat",
+      "senderId": "1",
+      "receiverId": "2",
+      "text": "realy",
+      "timestamp": "2026-08-30T17:39:30.152Z"
+    },
+    {
+      "id": "JfqEkESMj4Y",
+      "type": "chat",
+      "senderId": "1",
+      "receiverId": "2",
+      "text": "i was there too",
+      "timestamp": "2026-08-30T17:39:46.170Z"
     }
   ],
   "userProfile": {

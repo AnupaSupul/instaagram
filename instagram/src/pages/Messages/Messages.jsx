@@ -132,7 +132,11 @@ function Messages() {
             <main className="messages-main">
                 {!selectedUser ? (
                     <div className="messages-empty">
-                        <p>Select a conversation to start chatting</p>
+                        <div className="messages-empty-icon">
+                            <i className="bi bi-chat-square-dots"></i>
+                        </div>
+                        <h3>Your messages</h3>
+                        <p>Select a conversation to start chatting.</p>
                     </div>
                 ) : (
                     <>
