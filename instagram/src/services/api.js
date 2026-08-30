@@ -171,3 +171,29 @@ export const markNotificationRead = (id) =>
     },
     body: JSON.stringify({ read: true }),
   }).then((res) => res.json());
+
+
+
+// ==================== MESSAGES ====================
+
+// GET messages between two users (both directions)
+export const fetchMessages = (userId, otherUserId) =>
+  fetch(`${BASE_URL}/messages`)
+    .then((res) => res.json())
+    .then((all) =>
+      all.filter(
+        (m) =>
+          (m.senderId === userId && m.receiverId === otherUserId) ||
+          (m.senderId === otherUserId && m.receiverId === userId)
+      )
+    );
+
+// CREATE message
+export const createMessage = (message) =>
+  fetch(`${BASE_URL}/messages`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(message),
+  }).then((res) => res.json());

@@ -12,6 +12,7 @@ import CreatePostModal from './components/Feed/CreatePostModal';
 import Login from './pages/Login/Login';
 import Signup from './pages/Login/Signup';
 import Notifications from './pages/Notifications/Notifications';
+import Messages from './pages/Messages/Messages';
 
 import './App.css';
 
@@ -48,6 +49,7 @@ const router = createBrowserRouter([
       { path: '/', element: <HomeLayout /> },
       { path: '/profile', element: <Profile /> },
       { path: '/notifications', element: <Notifications /> },
+      { path: '/messages', element: <Messages /> },
       { path: '/story/:id', element: <StoryView /> },
     ],
   },

@@ -255,6 +255,32 @@
       "id": "Th_c_EnUp2s"
     }
   ],
+  "messages": [
+    {
+      "id": "74sBsRNgusc",
+      "type": "chat",
+      "senderId": "1",
+      "receiverId": "2",
+      "text": "hi",
+      "timestamp": "2026-08-30T17:14:46.288Z"
+    },
+    {
+      "id": "O2iWcIB8Qb0",
+      "type": "chat",
+      "senderId": "2",
+      "receiverId": "1",
+      "text": "whats up",
+      "timestamp": "2026-08-30T17:18:14.679Z"
+    },
+    {
+      "id": "XOzmbvDmNwk",
+      "type": "chat",
+      "senderId": "1",
+      "receiverId": "2",
+      "text": "where hv u been",
+      "timestamp": "2026-08-30T17:18:41.712Z"
+    }
+  ],
   "userProfile": {
     "id": "1",
     "username": "johndoe",
