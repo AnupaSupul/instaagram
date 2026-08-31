@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import { fetchMessages, createMessage } from '../../services/api';
 import './Messages.css';
 
-// The two known users for this first version
 const USERS = [
     { id: '1', username: 'johndoe' },
     { id: '2', username: 'anupa' },
@@ -20,7 +19,7 @@ function Messages() {
     const socketRef = useRef(null);
     const bottomRef = useRef(null);
 
-    // ── Connect WebSocket once on mount ──────────────────────
+    //  Connect WebSocket once on mount 
     useEffect(() => {
         if (!currentUser) return;
 
@@ -48,9 +47,9 @@ function Messages() {
         return () => {
             ws.close();
         };
-    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    }, []); 
 
-    // ── Load message history when conversation partner changes ─
+    // Load message history when conversation partner changes 
     useEffect(() => {
         if (!selectedUser || !currentUser) return;
 
@@ -63,14 +62,14 @@ function Messages() {
                 setMessages(sorted);
             })
             .catch((err) => console.error('Error fetching messages:', err));
-    }, [selectedUser]); // eslint-disable-line react-hooks/exhaustive-deps
+    }, [selectedUser]); 
 
-    // ── Auto-scroll to newest message ────────────────────────
+    // Auto-scroll to newest message 
     useEffect(() => {
         bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [messages]);
 
-    // ── Send ─────────────────────────────────────────────────
+    // Send 
     const handleSend = async () => {
         if (!messageText.trim() || !selectedUser) return;
 

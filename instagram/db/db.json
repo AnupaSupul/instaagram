@@ -253,6 +253,17 @@
       "timestamp": "2026-08-30T14:14:06.471Z",
       "read": true,
       "id": "Th_c_EnUp2s"
+    },
+    {
+      "type": "like",
+      "fromUserId": "2",
+      "fromUsername": "anupa",
+      "toUserId": "1",
+      "postId": "Zp3xbaOSxBw",
+      "message": "liked your post",
+      "timestamp": "2026-08-31T00:14:32.791Z",
+      "read": true,
+      "id": "Uc9akMtdYkI"
     }
   ],
   "messages": [

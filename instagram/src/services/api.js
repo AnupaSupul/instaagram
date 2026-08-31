@@ -146,7 +146,6 @@ export const createUser = (user) =>
 // ==================== NOTIFICATIONS ====================
 
 // GET notifications for a user — fetch all and filter client-side
-// (json-server ?toUserId= query can silently fail with certain ID formats)
 export const fetchNotifications = (userId) =>
   fetch(`${BASE_URL}/notifications`)
     .then((res) => res.json())
