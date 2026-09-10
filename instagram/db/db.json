@@ -163,6 +163,31 @@
         "2",
         "1"
       ]
+    },
+    {
+      "user": {
+        "id": "1",
+        "username": "johndoe",
+        "profile_pic": "https://picsum.photos/id/1025/200/200"
+      },
+      "caption": "songs",
+      "likes": 1,
+      "likedBy": [
+        "2"
+      ],
+      "comments": [
+        {
+          "id": "3f567d08-b0d1-4b64-bf80-1566462c6123",
+          "userId": "2",
+          "username": "anupa",
+          "text": "woow nice"
+        }
+      ],
+      "savedBy": [],
+      "timestamp": "2026-09-10T07:22:28.649Z",
+      "type": "reel",
+      "videoUrl": "https://youtu.be/0EEjaRB8OKE",
+      "id": "q997U0wL2CM"
     }
   ],
   "notifications": [
@@ -264,6 +289,17 @@
       "timestamp": "2026-08-31T00:14:32.791Z",
       "read": true,
       "id": "Uc9akMtdYkI"
+    },
+    {
+      "type": "like",
+      "fromUserId": "2",
+      "fromUsername": "anupa",
+      "toUserId": "1",
+      "postId": "q997U0wL2CM",
+      "message": "liked your reel",
+      "timestamp": "2026-09-10T07:23:40.758Z",
+      "read": false,
+      "id": "zUIYTJHTrQw"
     }
   ],
   "messages": [
@@ -322,6 +358,22 @@
       "receiverId": "1",
       "text": "really lol",
       "timestamp": "2026-08-30T17:42:09.821Z"
+    },
+    {
+      "id": "XR5wFZG0JJE",
+      "type": "chat",
+      "senderId": "2",
+      "receiverId": "1",
+      "text": "reel is good tho",
+      "timestamp": "2026-09-10T07:25:10.966Z"
+    },
+    {
+      "id": "pE3Y4X3Nxrk",
+      "type": "chat",
+      "senderId": "1",
+      "receiverId": "2",
+      "text": "fr?thanks",
+      "timestamp": "2026-09-10T07:25:36.442Z"
     }
   ],
   "userProfile": {

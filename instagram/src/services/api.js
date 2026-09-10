@@ -89,6 +89,16 @@ export const updateUserBio = (userId, bio) =>
     body: JSON.stringify({ bio }),
   }).then((res) => res.json());
 
+// GET all users
+export const fetchUsers = () =>
+  fetch(`${BASE_URL}/users`)
+    .then((res) => res.json());
+
+// GET single user by ID
+export const fetchUserById = (userId) =>
+  fetch(`${BASE_URL}/users/${userId}`)
+    .then((res) => res.json());
+
 
 // ==================== SUGGESTIONS ====================
 

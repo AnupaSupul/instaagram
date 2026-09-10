@@ -14,6 +14,7 @@ import Signup from './pages/Login/Signup';
 import Notifications from './pages/Notifications/Notifications';
 import Messages from './pages/Messages/Messages';
 import Reels from './pages/Reels/Reels';
+import Search from './pages/Search/Search';
 
 import './App.css';
 
@@ -49,6 +50,8 @@ const router = createBrowserRouter([
     children: [
       { path: '/', element: <HomeLayout /> },
       { path: '/profile', element: <Profile /> },
+      { path: '/profile/:userId', element: <Profile /> },
+      { path: '/search', element: <Search /> },
       { path: '/notifications', element: <Notifications /> },
       { path: '/messages', element: <Messages /> },
       { path: '/reels', element: <Reels /> },

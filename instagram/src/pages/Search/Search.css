@@ -1,0 +1,107 @@
+/* ============================================================
+   Search Page
+   ============================================================ */
+
+.search-page {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 24px 16px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.search-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #111;
+    margin: 0 0 16px;
+}
+
+/* Search input */
+.search-input {
+    width: 100%;
+    padding: 11px 16px;
+    border: 1px solid #dbdbdb;
+    border-radius: 10px;
+    font-size: 14px;
+    font-family: inherit;
+    background: #fafafa;
+    color: #111;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.search-input:focus {
+    border-color: #a0a0a0;
+    background: #fff;
+}
+
+.search-input::placeholder {
+    color: #aaa;
+}
+
+/* Results */
+.search-results {
+    margin-top: 16px;
+}
+
+/* Hint / empty state */
+.search-hint {
+    text-align: center;
+    padding: 40px 20px;
+    color: #aaa;
+}
+
+.search-hint i {
+    font-size: 36px;
+    display: block;
+    margin-bottom: 10px;
+    color: #d0d0d0;
+}
+
+.search-hint p {
+    font-size: 14px;
+    margin: 0;
+}
+
+/* Result item */
+.search-result-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.12s ease;
+}
+
+.search-result-item:hover {
+    background: #f5f5f5;
+}
+
+.search-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    border: 1px solid #efefef;
+}
+
+.search-user-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.search-username {
+    font-size: 14px;
+    font-weight: 600;
+    color: #111;
+}
+
+.search-fullname {
+    font-size: 13px;
+    color: #888;
+}

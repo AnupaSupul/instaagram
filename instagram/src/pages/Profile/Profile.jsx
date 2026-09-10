@@ -1,35 +1,48 @@
-// src/Profile.jsx
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import './Profile.css';
-import { deletePost, createPost, fetchPosts, updateUserBio } from '../../services/api';
+import { deletePost, createPost, fetchPosts, updateUserBio, fetchUserById } from '../../services/api';
 
 export default function Profile() {
+  const { userId } = useParams(); // undefined when visiting /profile (own profile)
   const [user, setUser] = useState(null);
   const [userPosts, setUserPosts] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [bioInput, setBioInput] = useState('');
   const [newPostCaption, setNewPostCaption] = useState('');
   const [newPostImage, setNewPostImage] = useState('');
+
+  const currentUser = JSON.parse(localStorage.getItem('user'));
+  const isOwnProfile = !userId || userId === currentUser?.id;
+
   useEffect(() => {
-    const currentUser = JSON.parse(localStorage.getItem('user'));
+    if (isOwnProfile) {
+      // Own profile — use localStorage
+      if (!currentUser) return;
+      setUser(currentUser);
+      setBioInput(currentUser.bio || '');
+      loadPosts(currentUser.id);
+    } else {
+      // Another user's profile — fetch from server
+      fetchUserById(userId)
+        .then((data) => {
+          setUser(data);
+          setBioInput(data.bio || '');
+          loadPosts(data.id);
+        })
+        .catch((err) => console.error('Error fetching user:', err));
+    }
+  }, [userId]);
 
-    if (!currentUser) return;
-
-    setUser(currentUser);
-    setBioInput(currentUser.bio || '');
-
+  function loadPosts(uid) {
     fetchPosts()
       .then((data) => {
-        const myPosts = data.filter(
-          (post) => post.user?.id === currentUser.id
-        );
-
-        setUserPosts(myPosts);
+        const filtered = data.filter((post) => post.user?.id === uid);
+        setUserPosts(filtered);
       })
-      .catch((err) =>
-        console.error('Error fetching posts:', err)
-      );
-  }, []);
+      .catch((err) => console.error('Error fetching posts:', err));
+  }
+
   // UPDATE
   const handleUpdateBio = (e) => {
     e.preventDefault();
@@ -93,42 +106,48 @@ export default function Profile() {
         <div className="profile-info">
           <h2>{user.username}</h2>
           <p className="bio">{user.bio}</p>
-          <button onClick={() => setIsEditing(!isEditing)}>
-            {isEditing ? 'Cancel' : 'Edit Bio'}
-          </button>
-          {isEditing && (
-            <form onSubmit={handleUpdateBio} className="edit-bio-form">
-              <input
-                type="text"
-                value={bioInput}
-                onChange={(e) => setBioInput(e.target.value)}
-                placeholder="Enter new bio..."
-              />
-              <button type="submit">Save</button>
-            </form>
+          {isOwnProfile && (
+            <>
+              <button onClick={() => setIsEditing(!isEditing)}>
+                {isEditing ? 'Cancel' : 'Edit Bio'}
+              </button>
+              {isEditing && (
+                <form onSubmit={handleUpdateBio} className="edit-bio-form">
+                  <input
+                    type="text"
+                    value={bioInput}
+                    onChange={(e) => setBioInput(e.target.value)}
+                    placeholder="Enter new bio..."
+                  />
+                  <button type="submit">Save</button>
+                </form>
+              )}
+            </>
           )}
         </div>
       </div>
-      {/* ── Create Post ── */}
-      <div className="create-post-section">
-        <h3>Create New Post</h3>
-        <form onSubmit={handleCreatePost}>
-          <input
-            type="text"
-            placeholder="Image URL"
-            value={newPostImage}
-            onChange={(e) => setNewPostImage(e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Caption"
-            value={newPostCaption}
-            onChange={(e) => setNewPostCaption(e.target.value)}
-            required
-          />
-          <button type="submit">Post</button>
-        </form>
-      </div>
+      {/* ── Create Post (own profile only) ── */}
+      {isOwnProfile && (
+        <div className="create-post-section">
+          <h3>Create New Post</h3>
+          <form onSubmit={handleCreatePost}>
+            <input
+              type="text"
+              placeholder="Image URL"
+              value={newPostImage}
+              onChange={(e) => setNewPostImage(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Caption"
+              value={newPostCaption}
+              onChange={(e) => setNewPostCaption(e.target.value)}
+              required
+            />
+            <button type="submit">Post</button>
+          </form>
+        </div>
+      )}
       {/* ── Posts Grid ── */}
       <div className="profile-posts-header">
         <i className="bi bi-grid3x3"></i>
@@ -143,9 +162,11 @@ export default function Profile() {
             <img src={post.image} alt={post.caption} />
             <div className="grid-overlay">
               <p>{post.caption}</p>
-              <button className="delete-btn" onClick={() => handleDeletePost(post.id)}>
-                Delete
-              </button>
+              {isOwnProfile && (
+                <button className="delete-btn" onClick={() => handleDeletePost(post.id)}>
+                  Delete
+                </button>
+              )}
             </div>
           </div>
         ))}
@@ -153,4 +174,3 @@ export default function Profile() {
     </div>
   );
 }
-
