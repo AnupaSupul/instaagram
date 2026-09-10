@@ -13,6 +13,7 @@ import Login from './pages/Login/Login';
 import Signup from './pages/Login/Signup';
 import Notifications from './pages/Notifications/Notifications';
 import Messages from './pages/Messages/Messages';
+import Reels from './pages/Reels/Reels';
 
 import './App.css';
 
@@ -50,6 +51,7 @@ const router = createBrowserRouter([
       { path: '/profile', element: <Profile /> },
       { path: '/notifications', element: <Notifications /> },
       { path: '/messages', element: <Messages /> },
+      { path: '/reels', element: <Reels /> },
       { path: '/story/:id', element: <StoryView /> },
     ],
   },
