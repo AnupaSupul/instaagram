@@ -1,6 +1,6 @@
 // src/Posts.jsx
 import { useState, useEffect } from 'react';
-import { fetchPosts,likePost,addComment,savePost,updatePost,deletePost,createNotification } from '../../services/api';
+import { fetchPosts, likePost, addComment, savePost, updatePost, deletePost, createNotification } from '../../services/api';
 import './Posts.css';
 
 function Posts() {
@@ -14,165 +14,165 @@ function Posts() {
 
   useEffect(() => {
     fetchPosts()
-      .then((data) => setPosts(data))
+      .then((data) => setPosts(data.filter((p) => p.type !== 'reel')))
       .catch((err) => console.log('Error fetching posts:', err));
   }, []);
 
-    const handleDelete = (postId) => {
-        deletePost(postId)
-          .then((res) => {
-            if (res.ok) {
-              setPosts((prevPosts) =>
-                prevPosts.filter((post) => post.id !== postId)
-              );
-            }
-          })
-          .catch((err) => {
-            console.error('Error deleting post:', err);
-          });
-      };  
-
-    const handleShare = async (post) => {
-      const shareUrl = `${window.location.origin}/post/${post.id}`;
-
-      try {
-        await navigator.clipboard.writeText(shareUrl);
-        alert('Post link copied!');
-      } catch (err) {
-        console.error('Error copying post link:', err);
-      }
-    };
-
-    const handleComment = (post) => {
-      const currentUser = JSON.parse(localStorage.getItem('user'));
-
-      if (!currentUser || !commentText.trim()) return;
-
-      const newComment = {
-        id: crypto.randomUUID(),
-        userId: currentUser.id,
-        username: currentUser.username,
-        text: commentText.trim(),
-      };
-
-      const updatedComments = [
-        ...(post.comments || []),
-        newComment,
-      ];
-
-      addComment(post.id, updatedComments)
-        .then((updatedPost) => {
+  const handleDelete = (postId) => {
+    deletePost(postId)
+      .then((res) => {
+        if (res.ok) {
           setPosts((prevPosts) =>
-            prevPosts.map((p) =>
-              p.id === updatedPost.id ? updatedPost : p
-            )
+            prevPosts.filter((post) => post.id !== postId)
           );
+        }
+      })
+      .catch((err) => {
+        console.error('Error deleting post:', err);
+      });
+  };
 
-          setCommentText('');
-        })
-        .catch((err) => {
-          console.error('Error adding comment:', err);
-        });
+  const handleShare = async (post) => {
+    const shareUrl = `${window.location.origin}/post/${post.id}`;
+
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      alert('Post link copied!');
+    } catch (err) {
+      console.error('Error copying post link:', err);
+    }
+  };
+
+  const handleComment = (post) => {
+    const currentUser = JSON.parse(localStorage.getItem('user'));
+
+    if (!currentUser || !commentText.trim()) return;
+
+    const newComment = {
+      id: crypto.randomUUID(),
+      userId: currentUser.id,
+      username: currentUser.username,
+      text: commentText.trim(),
     };
 
+    const updatedComments = [
+      ...(post.comments || []),
+      newComment,
+    ];
 
-      const handleLike = (post) => {
-              const currentUser = JSON.parse(localStorage.getItem('user'));
+    addComment(post.id, updatedComments)
+      .then((updatedPost) => {
+        setPosts((prevPosts) =>
+          prevPosts.map((p) =>
+            p.id === updatedPost.id ? updatedPost : p
+          )
+        );
 
-              if (!currentUser) return;
-
-              const userId = currentUser.id;
-
-              const alreadyLiked = post.likedBy?.includes(userId);
-
-              const updatedLikedBy = alreadyLiked
-                ? post.likedBy.filter((id) => id !== userId)
-                : [...(post.likedBy || []), userId];
-
-              const updatedLikes = alreadyLiked
-                ? post.likes - 1
-                : post.likes + 1;
-
-              likePost(post.id, {
-                likes: updatedLikes,
-                likedBy: updatedLikedBy,
-              })
-                .then((updatedPost) => {
-                  setPosts((prevPosts) =>
-                    prevPosts.map((p) =>
-                      p.id === updatedPost.id ? updatedPost : p
-                    )
-                  );
-
-                  // Create notification when another user likes the post
-                  if (!alreadyLiked && post.user.id !== currentUser.id) {
-                    return createNotification({
-                      type: 'like',
-                      fromUserId: currentUser.id,
-                      fromUsername: currentUser.username,
-                      toUserId: post.user.id,
-                      postId: post.id,
-                      message: 'liked your post',
-                      timestamp: new Date().toISOString(),
-                      read: false,
-                    });
-                  }
-                })
-                .catch((err) => {
-                  console.error('Error updating like:', err);
-                });
-            };
-
-                  const handleSave = (post) => {
-                      const currentUser = JSON.parse(localStorage.getItem('user'));
-
-                      if (!currentUser) return;
-
-                      const userId = currentUser.id;
-
-                      const alreadySaved = post.savedBy?.includes(userId);
-
-                      const updatedSavedBy = alreadySaved
-                        ? post.savedBy.filter((id) => id !== userId)
-                        : [...(post.savedBy || []), userId];
-
-                      savePost(post.id, updatedSavedBy)
-                        .then((updatedPost) => {
-                          setPosts((prevPosts) =>
-                            prevPosts.map((p) =>
-                              p.id === updatedPost.id ? updatedPost : p
-                            )
-                          );
-                        })
-                        .catch((err) => {
-                          console.error('Error saving post:', err);
-                        });
-                    };
+        setCommentText('');
+      })
+      .catch((err) => {
+        console.error('Error adding comment:', err);
+      });
+  };
 
 
-                    const handleEdit = (post) => {
-                      setEditingPostId(post.id);
-                      setEditCaption(post.caption);
-                    };
+  const handleLike = (post) => {
+    const currentUser = JSON.parse(localStorage.getItem('user'));
 
-                    const handleUpdatePost = (post) => {
-                        updatePost(post.id, {
-                          caption: editCaption,
-                        })
-                          .then((updatedPost) => {
-                            setPosts((prevPosts) =>
-                              prevPosts.map((p) =>
-                                p.id === updatedPost.id ? updatedPost : p
-                              )
-                            );
+    if (!currentUser) return;
 
-                            setEditingPostId(null);
-                            setEditCaption('');
-                          })
-                          .catch((err) => {
-                            console.error('Error updating post:', err);
-                          });
-                      };
+    const userId = currentUser.id;
+
+    const alreadyLiked = post.likedBy?.includes(userId);
+
+    const updatedLikedBy = alreadyLiked
+      ? post.likedBy.filter((id) => id !== userId)
+      : [...(post.likedBy || []), userId];
+
+    const updatedLikes = alreadyLiked
+      ? post.likes - 1
+      : post.likes + 1;
+
+    likePost(post.id, {
+      likes: updatedLikes,
+      likedBy: updatedLikedBy,
+    })
+      .then((updatedPost) => {
+        setPosts((prevPosts) =>
+          prevPosts.map((p) =>
+            p.id === updatedPost.id ? updatedPost : p
+          )
+        );
+
+        // Create notification when another user likes the post
+        if (!alreadyLiked && post.user.id !== currentUser.id) {
+          return createNotification({
+            type: 'like',
+            fromUserId: currentUser.id,
+            fromUsername: currentUser.username,
+            toUserId: post.user.id,
+            postId: post.id,
+            message: 'liked your post',
+            timestamp: new Date().toISOString(),
+            read: false,
+          });
+        }
+      })
+      .catch((err) => {
+        console.error('Error updating like:', err);
+      });
+  };
+
+  const handleSave = (post) => {
+    const currentUser = JSON.parse(localStorage.getItem('user'));
+
+    if (!currentUser) return;
+
+    const userId = currentUser.id;
+
+    const alreadySaved = post.savedBy?.includes(userId);
+
+    const updatedSavedBy = alreadySaved
+      ? post.savedBy.filter((id) => id !== userId)
+      : [...(post.savedBy || []), userId];
+
+    savePost(post.id, updatedSavedBy)
+      .then((updatedPost) => {
+        setPosts((prevPosts) =>
+          prevPosts.map((p) =>
+            p.id === updatedPost.id ? updatedPost : p
+          )
+        );
+      })
+      .catch((err) => {
+        console.error('Error saving post:', err);
+      });
+  };
+
+
+  const handleEdit = (post) => {
+    setEditingPostId(post.id);
+    setEditCaption(post.caption);
+  };
+
+  const handleUpdatePost = (post) => {
+    updatePost(post.id, {
+      caption: editCaption,
+    })
+      .then((updatedPost) => {
+        setPosts((prevPosts) =>
+          prevPosts.map((p) =>
+            p.id === updatedPost.id ? updatedPost : p
+          )
+        );
+
+        setEditingPostId(null);
+        setEditCaption('');
+      })
+      .catch((err) => {
+        console.error('Error updating post:', err);
+      });
+  };
 
 
   return (
@@ -197,26 +197,26 @@ function Posts() {
             />
             {/* ── Action Icons ── */}
             <div className="post-actions">
-            <i
-                  className={
-                    post.likedBy?.includes(
-                      JSON.parse(localStorage.getItem('user'))?.id
-                    )
-                      ? 'bi bi-heart-fill text-danger'
-                      : 'bi bi-heart'
-                  }
-                  onClick={() => handleLike(post)}
-                  style={{ cursor: 'pointer' }}
-            ></i>
               <i
-                  className="bi bi-chat"
-                  onClick={() =>
-                    setOpenComments(
-                      openComments === post.id ? null : post.id
-                    )
-                  }
-                  style={{ cursor: 'pointer' }}
-                ></i>
+                className={
+                  post.likedBy?.includes(
+                    JSON.parse(localStorage.getItem('user'))?.id
+                  )
+                    ? 'bi bi-heart-fill text-danger'
+                    : 'bi bi-heart'
+                }
+                onClick={() => handleLike(post)}
+                style={{ cursor: 'pointer' }}
+              ></i>
+              <i
+                className="bi bi-chat"
+                onClick={() =>
+                  setOpenComments(
+                    openComments === post.id ? null : post.id
+                  )
+                }
+                style={{ cursor: 'pointer' }}
+              ></i>
 
               <i
                 className="bi bi-send"
@@ -225,53 +225,52 @@ function Posts() {
               ></i>
 
               <i
-                className={`bookmark ${
-                  post.savedBy?.includes(
-                    JSON.parse(localStorage.getItem('user'))?.id
-                  )
+                className={`bookmark ${post.savedBy?.includes(
+                  JSON.parse(localStorage.getItem('user'))?.id
+                )
                     ? 'bi bi-bookmark-fill'
                     : 'bi bi-bookmark'
-                }`}
+                  }`}
                 onClick={() => handleSave(post)}
               ></i>
 
             </div>
             {/* ── Like Count ── */}
- 
-                <div className="post-options">
-                    <button
-                      className="menu-button"
-                      onClick={() =>
-                        setOpenMenuId(
-                          openMenuId === post.id ? null : post.id
-                        )
-                      }
-                    >
-                      <i className="bi bi-three-dots"></i>
-                    </button>
 
-                    {openMenuId === post.id && (
-                      <div className="post-menu">
-                        <button
-                          onClick={() => {
-                            handleEdit(post);
-                            setOpenMenuId(null);
-                          }}
-                        >
-                          Edit
-                        </button>
+            <div className="post-options">
+              <button
+                className="menu-button"
+                onClick={() =>
+                  setOpenMenuId(
+                    openMenuId === post.id ? null : post.id
+                  )
+                }
+              >
+                <i className="bi bi-three-dots"></i>
+              </button>
 
-                        <button
-                            onClick={() => {
-                              handleDelete(post.id);
-                              setOpenMenuId(null);
-                            }}
-                          >
-                            Delete
-                          </button>
-                      </div>
-                    )}
-                  </div>
+              {openMenuId === post.id && (
+                <div className="post-menu">
+                  <button
+                    onClick={() => {
+                      handleEdit(post);
+                      setOpenMenuId(null);
+                    }}
+                  >
+                    Edit
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      handleDelete(post.id);
+                      setOpenMenuId(null);
+                    }}
+                  >
+                    Delete
+                  </button>
+                </div>
+              )}
+            </div>
 
             <div className="like-count">
               <strong>{post.likes} likes</strong>
@@ -283,97 +282,97 @@ function Posts() {
               <span>{post.caption}</span>
             </div>
 
-            
 
-                  {openComments === post.id && (
-                <div className="comments-section">
 
-                  {post.comments?.map((comment) => (
-                    <div key={comment.id} className="comment">
-                      <strong>{comment.username}</strong>{' '}
-                      {comment.text}
-                    </div>
-                  ))}
+            {openComments === post.id && (
+              <div className="comments-section">
 
-                  <form
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      handleComment(post);
+                {post.comments?.map((comment) => (
+                  <div key={comment.id} className="comment">
+                    <strong>{comment.username}</strong>{' '}
+                    {comment.text}
+                  </div>
+                ))}
+
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    handleComment(post);
+                  }}
+                >
+                  <input
+                    type="text"
+                    placeholder="Add a comment..."
+                    value={commentText}
+                    onChange={(e) => setCommentText(e.target.value)}
+                  />
+
+                  <button type="submit">
+                    Post
+                  </button>
+                </form>
+
+              </div>
+            )}
+
+            {sharePostId === post.id && (
+              <div className="share-modal-backdrop">
+                <div className="share-modal">
+                  <div className="share-modal-header">
+                    <h3>Share post</h3>
+
+                    <button
+                      onClick={() => setSharePostId(null)}
+                      className="share-close-btn"
+                    >
+                      ×
+                    </button>
+                  </div>
+
+                  <button
+                    className="share-option"
+                    onClick={() => {
+                      handleShare(post);
+                      setSharePostId(null);
                     }}
                   >
-                    <input
-                      type="text"
-                      placeholder="Add a comment..."
-                      value={commentText}
-                      onChange={(e) => setCommentText(e.target.value)}
-                    />
+                    🔗 Copy link
+                  </button>
 
-                    <button type="submit">
-                      Post
-                    </button>
-                  </form>
-
+                  <button
+                    className="share-option"
+                    onClick={() => setSharePostId(null)}
+                  >
+                    Cancel
+                  </button>
                 </div>
-              )}
+              </div>
+            )}
 
-              {sharePostId === post.id && (
-                  <div className="share-modal-backdrop">
-                    <div className="share-modal">
-                      <div className="share-modal-header">
-                        <h3>Share post</h3>
+            {editingPostId === post.id && (
+              <div className="edit-post-form">
 
-                        <button
-                          onClick={() => setSharePostId(null)}
-                          className="share-close-btn"
-                        >
-                          ×
-                        </button>
-                      </div>
+                <input
+                  type="text"
+                  value={editCaption}
+                  onChange={(e) => setEditCaption(e.target.value)}
+                />
 
-                      <button
-                        className="share-option"
-                        onClick={() => {
-                          handleShare(post);
-                          setSharePostId(null);
-                        }}
-                      >
-                        🔗 Copy link
-                      </button>
+                <button onClick={() => handleUpdatePost(post)}>
+                  Save
+                </button>
 
-                      <button
-                        className="share-option"
-                        onClick={() => setSharePostId(null)}
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  </div>
-                )}
+                <button
+                  onClick={() => {
+                    setEditingPostId(null);
+                    setEditCaption('');
+                  }}
+                >
+                  Cancel
+                </button>
 
-                {editingPostId === post.id && (
-                    <div className="edit-post-form">
-
-                      <input
-                        type="text"
-                        value={editCaption}
-                        onChange={(e) => setEditCaption(e.target.value)}
-                      />
-
-                      <button onClick={() => handleUpdatePost(post)}>
-                        Save
-                      </button>
-
-                      <button
-                        onClick={() => {
-                          setEditingPostId(null);
-                          setEditCaption('');
-                        }}
-                      >
-                        Cancel
-                      </button>
-
-                    </div>
-                  )}
+              </div>
+            )}
 
           </div>
         ))

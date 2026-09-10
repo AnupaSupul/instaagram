@@ -1,0 +1,187 @@
+/* Reels Page*/
+
+.reels-page {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 24px 16px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.reels-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #111;
+    margin: 0 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.reels-empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: #aaa;
+}
+
+.reels-empty i {
+    font-size: 48px;
+    display: block;
+    margin-bottom: 12px;
+    color: #d0d0d0;
+}
+
+.reels-empty p {
+    font-size: 14px;
+}
+
+.reels-feed {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+
+.reel-card {
+    background: #fff;
+    border: 1px solid #efefef;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+
+.reel-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+}
+
+.reel-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.reel-username {
+    font-size: 14px;
+    font-weight: 600;
+    color: #111;
+}
+
+.reel-video {
+    width: 100%;
+    max-height: 600px;
+    background: #000;
+    display: block;
+    object-fit: contain;
+}
+
+/* Actions */
+.reel-actions {
+    display: flex;
+    gap: 16px;
+    padding: 10px 14px 4px;
+    font-size: 22px;
+}
+
+.reel-actions i {
+    cursor: pointer;
+    transition: transform 0.12s ease;
+}
+
+.reel-actions i:hover {
+    transform: scale(1.15);
+}
+
+.reel-actions .delete-icon {
+    margin-left: auto;
+    color: #999;
+    font-size: 18px;
+}
+
+.reel-actions .delete-icon:hover {
+    color: #ed4956;
+}
+
+/* Likes */
+.reel-likes {
+    padding: 2px 14px 4px;
+    font-size: 13px;
+    color: #111;
+}
+
+/* Caption */
+.reel-caption {
+    padding: 0 14px 10px;
+    font-size: 14px;
+    color: #333;
+    line-height: 1.4;
+}
+
+.reel-caption strong {
+    margin-right: 6px;
+    color: #111;
+}
+
+/* Comments */
+.reel-comments {
+    padding: 8px 14px 12px;
+    border-top: 1px solid #efefef;
+}
+
+.reel-comment {
+    font-size: 13px;
+    margin-bottom: 4px;
+    color: #333;
+}
+
+.reel-comment strong {
+    margin-right: 4px;
+    color: #111;
+}
+
+.reel-comments form {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.reel-comments input {
+    flex: 1;
+    border: 1px solid #dbdbdb;
+    border-radius: 8px;
+    padding: 7px 12px;
+    font-size: 13px;
+    font-family: inherit;
+    outline: none;
+}
+
+.reel-comments input:focus {
+    border-color: #a0a0a0;
+}
+
+.reel-comments button {
+    background: none;
+    border: none;
+    color: #0095f6;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.reel-comments button:hover {
+    color: #0070cc;
+}
+
+/* Responsive */
+@media (max-width: 520px) {
+    .reels-page {
+        padding: 16px 8px;
+    }
+
+    .reel-video {
+        max-height: 400px;
+    }
+}
