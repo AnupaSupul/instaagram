@@ -1,20 +1,23 @@
 import { useEffect, useRef, useState } from 'react';
-import { fetchMessages, createMessage } from '../../services/api';
+import { fetchMessages, createMessage, fetchUsers } from '../../services/api';
 import './Messages.css';
-
-const USERS = [
-    { id: '1', username: 'johndoe' },
-    { id: '2', username: 'anupa' },
-];
 
 const WS_URL = 'ws://localhost:3001';
 
 function Messages() {
     const currentUser = JSON.parse(localStorage.getItem('user'));
 
+    const [allUsers, setAllUsers] = useState([]);
     const [selectedUser, setSelectedUser] = useState(null);
     const [messages, setMessages] = useState([]);
     const [messageText, setMessageText] = useState('');
+
+    // Load all users from backend on mount
+    useEffect(() => {
+        fetchUsers()
+            .then((data) => setAllUsers(data))
+            .catch((err) => console.error('Error fetching users:', err));
+    }, []);
 
     const socketRef = useRef(null);
     const bottomRef = useRef(null);
@@ -87,7 +90,7 @@ function Messages() {
             socketRef.current.send(JSON.stringify(msg));
         }
 
-        // 2. Persist to json-server
+        // 2. Persist to database
         await createMessage(msg);
 
         // 3. Show in own chat immediately
@@ -103,7 +106,7 @@ function Messages() {
     };
 
     // Conversation partners — everyone except yourself
-    const conversationList = USERS.filter((u) => u.id !== currentUser?.id);
+    const conversationList = allUsers.filter((u) => u.id !== currentUser?.id);
 
     return (
         <div className="messages-page">

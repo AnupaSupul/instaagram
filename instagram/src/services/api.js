@@ -123,15 +123,21 @@ export const fetchStories = () =>
 
 // ==================== AUTH ====================
 
-// LOGIN
+// LOGIN — calls POST /login, wraps result in array for Login.jsx compatibility
 export const loginUser = async (username, password) => {
-  const res = await fetch(
-    `${BASE_URL}/users?username=${encodeURIComponent(username)}`
-  );
+  const res = await fetch(`${BASE_URL}/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, password }),
+  });
 
-  const users = await res.json();
+  if (!res.ok) {
+    // Login failed — return empty array so Login.jsx shows error
+    return [];
+  }
 
-  return users.filter((user) => user.password === password);
+  const user = await res.json();
+  return [user]; // Login.jsx expects an array and checks users.length > 0
 };
 
 // CHECK USERNAME
@@ -155,11 +161,10 @@ export const createUser = (user) =>
 
 // ==================== NOTIFICATIONS ====================
 
-// GET notifications for a user — fetch all and filter client-side
+// GET notifications for a user — server-side filtering by toUserId
 export const fetchNotifications = (userId) =>
-  fetch(`${BASE_URL}/notifications`)
-    .then((res) => res.json())
-    .then((all) => all.filter((n) => n.toUserId === userId));
+  fetch(`${BASE_URL}/notifications?toUserId=${userId}`)
+    .then((res) => res.json());
 
 // CREATE notification
 export const createNotification = (notification) =>
@@ -185,17 +190,10 @@ export const markNotificationRead = (id) =>
 
 // ==================== MESSAGES ====================
 
-// GET messages between two users (both directions)
+// GET messages between two users — server-side filtering
 export const fetchMessages = (userId, otherUserId) =>
-  fetch(`${BASE_URL}/messages`)
-    .then((res) => res.json())
-    .then((all) =>
-      all.filter(
-        (m) =>
-          (m.senderId === userId && m.receiverId === otherUserId) ||
-          (m.senderId === otherUserId && m.receiverId === userId)
-      )
-    );
+  fetch(`${BASE_URL}/messages?user1=${userId}&user2=${otherUserId}`)
+    .then((res) => res.json());
 
 // CREATE message
 export const createMessage = (message) =>

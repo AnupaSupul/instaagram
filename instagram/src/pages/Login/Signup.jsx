@@ -1,6 +1,7 @@
 // src/pages/Signup/Signup.jsx
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { checkUsername, createUser } from '../../services/api';
 import './Signup.css';
 
 function Signup() {
@@ -22,26 +23,18 @@ function Signup() {
     setLoading(true);
     try {
       // Check if username already taken
-      const checkRes = await fetch(
-        `http://localhost:3000/users?username=${form.username}`
-      );
-      const existing = await checkRes.json();
+      const existing = await checkUsername(form.username);
       if (existing.length > 0) {
         setError('This username is already taken. Try another.');
         setLoading(false);
         return;
       }
       // Create new user
-      const res = await fetch('http://localhost:3000/users', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...form,
-          profilePicture: `https://picsum.photos/id/${Math.floor(Math.random() * 100)}/200/200`,
-          bio: '',
-        }),
+      const newUser = await createUser({
+        ...form,
+        profilePicture: `https://picsum.photos/id/${Math.floor(Math.random() * 100)}/200/200`,
+        bio: '',
       });
-      const newUser = await res.json();
       localStorage.setItem('user', JSON.stringify(newUser));
       navigate('/');
     } catch (err) {

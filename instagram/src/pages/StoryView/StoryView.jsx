@@ -1,6 +1,7 @@
 // src/StoryView.jsx
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { fetchStories } from '../../services/api';
 import './StoryView.css';
 
 export default function StoryView() {
@@ -9,8 +10,7 @@ export default function StoryView() {
   const [currentStory, setCurrentStory] = useState(null);
   const [allStories, setAllStories] = useState([]);
   useEffect(() => {
-    fetch('http://localhost:3000/stories')
-      .then((res) => res.json())
+    fetchStories()
       .then((data) => {
         setAllStories(data);
         // Find the story that matches the current URL id
