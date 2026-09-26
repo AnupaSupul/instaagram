@@ -34,11 +34,6 @@ function Sidebar({ onCreate }) {
           <span>Search</span>
         </NavLink>
 
-        <NavLink to="/explore" className="sidebar-item">
-          <i className="bi bi-compass"></i>
-          <span>Explore</span>
-        </NavLink>
-
         <NavLink to="/reels" className="sidebar-item">
           <i className="bi bi-play-btn"></i>
           <span>Reels</span>
