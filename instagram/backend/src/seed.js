@@ -1,20 +1,8 @@
-// ─────────────────────────────────────────────────────────────
-// seed.js — Migrate db/db.json data into MongoDB
-//
-// Usage:   node src/seed.js
-// or:      npm run seed
-//
-// This script:
-//   1. Connects to MongoDB using the existing .env config
-//   2. Reads the existing db/db.json file
-//   3. Clears existing collections (safe re-run / duplicate protection)
-//   4. Inserts all users, posts, notifications, messages, stories
-//   5. Maps old json-server IDs → new MongoDB IDs across all references
-//   6. Prints a summary and exits
-// ─────────────────────────────────────────────────────────────
+
 
 const path = require('path');
 const fs = require('fs');
+const bcrypt = require('bcrypt');
 require('dotenv').config();
 
 const connectDB = require('./config/db');
@@ -59,15 +47,19 @@ async function seed() {
 
   // ── 4. Seed Users ──
   //    Insert users and build a map:  oldId → newMongoId (as string)
+  //    Passwords are hashed with bcrypt before storing
   console.log('\nSeeding users...');
   const userIdMap = {};   // e.g. { "1": "6ab...", "2": "6ab..." }
 
   for (const u of data.users || []) {
+    // Hash the plaintext password from db.json
+    const hashedPassword = await bcrypt.hash(u.password, 10);
+
     const created = await User.create({
       email:          u.email,
       fullName:       u.fullName,
       username:       u.username,
-      password:       u.password,          // kept as-is (plaintext, matching current login)
+      password:       hashedPassword,       // stored as bcrypt hash
       profilePicture: u.profilePicture || '',
       bio:            u.bio || ''
     });

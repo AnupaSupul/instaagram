@@ -3,6 +3,7 @@ const cors = require('cors');
 require('dotenv').config();
 
 const connectDB = require('./config/db');
+const authMiddleware = require('./middleware/authMiddleware');
 
 // Route imports
 const authRoutes         = require('./routes/authRoutes');
@@ -26,15 +27,17 @@ app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok' });
 });
 
-// ── Main routes ──
+// ── Public routes (no JWT required) ──
 app.use('/',              authRoutes);         // POST /login
-app.use('/users',         userRoutes);         // CRUD /users
-app.use('/posts',         postRoutes);         // CRUD /posts
-app.use('/notifications', notificationRoutes); // CRUD /notifications
-app.use('/messages',      messageRoutes);      // GET + POST /messages
+app.use('/users',         userRoutes);         // signup + check are public (auth applied per-route inside)
 
-// ── Stories (simple inline — no separate controller needed) ──
-app.get('/stories', async (_req, res) => {
+// ── Protected routes (JWT required) ──
+app.use('/posts',         authMiddleware, postRoutes);         // CRUD /posts
+app.use('/notifications', authMiddleware, notificationRoutes); // CRUD /notifications
+app.use('/messages',      authMiddleware, messageRoutes);      // GET + POST /messages
+
+// ── Stories (protected) ──
+app.get('/stories', authMiddleware, async (_req, res) => {
   try {
     const stories = await Story.find();
     res.json(stories);
@@ -43,8 +46,8 @@ app.get('/stories', async (_req, res) => {
   }
 });
 
-// ── Suggestions (derived from users — no separate model needed) ──
-app.get('/suggestions', async (_req, res) => {
+// ── Suggestions (protected) ──
+app.get('/suggestions', authMiddleware, async (_req, res) => {
   try {
     const users = await User.find().limit(5).select('-password');
     const suggestions = users.map((u) => ({
@@ -58,8 +61,8 @@ app.get('/suggestions', async (_req, res) => {
   }
 });
 
-// ── Profile (returns first user as a placeholder — proper handling in Phase 4) ──
-app.get('/profile', async (_req, res) => {
+// ── Profile (protected) ──
+app.get('/profile', authMiddleware, async (_req, res) => {
   try {
     const user = await User.findOne().select('-password');
     if (!user) return res.json({});

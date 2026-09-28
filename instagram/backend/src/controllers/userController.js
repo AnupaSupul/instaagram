@@ -1,6 +1,6 @@
+const bcrypt = require('bcrypt');
 const User = require('../models/User');
 
-// GET /users  or  GET /users?username=X
 exports.getUsers = async (req, res) => {
   try {
     const { username } = req.query;
@@ -12,7 +12,6 @@ exports.getUsers = async (req, res) => {
   }
 };
 
-// GET /users/:id
 exports.getUserById = async (req, res) => {
   try {
     const user = await User.findById(req.params.id).select('-password');
@@ -23,10 +22,11 @@ exports.getUserById = async (req, res) => {
   }
 };
 
-// POST /users  (signup)
 exports.createUser = async (req, res) => {
   try {
-    const user = await User.create(req.body);
+    // Hash the password before saving
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const user = await User.create({ ...req.body, password: hashedPassword });
     const userObj = user.toJSON();
     delete userObj.password;
     res.status(201).json(userObj);
@@ -38,7 +38,6 @@ exports.createUser = async (req, res) => {
   }
 };
 
-// PATCH /users/:id
 exports.updateUser = async (req, res) => {
   try {
     const user = await User.findByIdAndUpdate(

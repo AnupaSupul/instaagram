@@ -1,24 +1,32 @@
 const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
+// ── Helper: get auth headers (includes JWT if available) ──
+function authHeaders() {
+  const token = localStorage.getItem('token');
+  const headers = { 'Content-Type': 'application/json' };
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+  return headers;
+}
+
 // ==================== POSTS ====================
 
 // GET all posts
 export const fetchPosts = () =>
-  fetch(`${BASE_URL}/posts`)
+  fetch(`${BASE_URL}/posts`, { headers: authHeaders() })
     .then((res) => res.json());
 
 // GET posts for a specific user
 export const fetchUserPosts = (userId) =>
-  fetch(`${BASE_URL}/posts?userId=${userId}`)
+  fetch(`${BASE_URL}/posts?userId=${userId}`, { headers: authHeaders() })
     .then((res) => res.json());
 
 // CREATE post
 export const createPost = (post) =>
   fetch(`${BASE_URL}/posts`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: authHeaders(),
     body: JSON.stringify(post),
   })
     .then((res) => res.json());
@@ -27,6 +35,7 @@ export const createPost = (post) =>
 export const deletePost = (id) =>
   fetch(`${BASE_URL}/posts/${id}`, {
     method: 'DELETE',
+    headers: authHeaders(),
   });
 
 
@@ -34,9 +43,7 @@ export const deletePost = (id) =>
 export const likePost = (id, data) =>
   fetch(`${BASE_URL}/posts/${id}`, {
     method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: authHeaders(),
     body: JSON.stringify(data),
   })
     .then((res) => res.json());
@@ -47,9 +54,7 @@ export const likePost = (id, data) =>
 export const addComment = (postId, comments) =>
   fetch(`${BASE_URL}/posts/${postId}`, {
     method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: authHeaders(),
     body: JSON.stringify({ comments }),
   }).then((res) => res.json());
 
@@ -58,9 +63,7 @@ export const addComment = (postId, comments) =>
 export const savePost = (id, savedBy) =>
   fetch(`${BASE_URL}/posts/${id}`, {
     method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: authHeaders(),
     body: JSON.stringify({ savedBy }),
   }).then((res) => res.json());
 
@@ -69,9 +72,7 @@ export const savePost = (id, savedBy) =>
 export const updatePost = (id, data) =>
   fetch(`${BASE_URL}/posts/${id}`, {
     method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: authHeaders(),
     body: JSON.stringify(data),
   }).then((res) => res.json());
 
@@ -83,20 +84,18 @@ export const updatePost = (id, data) =>
 export const updateUserBio = (userId, bio) =>
   fetch(`${BASE_URL}/users/${userId}`, {
     method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: authHeaders(),
     body: JSON.stringify({ bio }),
   }).then((res) => res.json());
 
 // GET all users
 export const fetchUsers = () =>
-  fetch(`${BASE_URL}/users`)
+  fetch(`${BASE_URL}/users`, { headers: authHeaders() })
     .then((res) => res.json());
 
 // GET single user by ID
 export const fetchUserById = (userId) =>
-  fetch(`${BASE_URL}/users/${userId}`)
+  fetch(`${BASE_URL}/users/${userId}`, { headers: authHeaders() })
     .then((res) => res.json());
 
 
@@ -104,12 +103,12 @@ export const fetchUserById = (userId) =>
 
 // GET profile shown in suggestions sidebar
 export const fetchProfile = () =>
-  fetch(`${BASE_URL}/profile`)
+  fetch(`${BASE_URL}/profile`, { headers: authHeaders() })
     .then((res) => res.json());
 
 // GET suggested users
 export const fetchSuggestions = () =>
-  fetch(`${BASE_URL}/suggestions`)
+  fetch(`${BASE_URL}/suggestions`, { headers: authHeaders() })
     .then((res) => res.json());
 
 
@@ -117,7 +116,7 @@ export const fetchSuggestions = () =>
 
 // GET all stories
 export const fetchStories = () =>
-  fetch(`${BASE_URL}/stories`)
+  fetch(`${BASE_URL}/stories`, { headers: authHeaders() })
     .then((res) => res.json());
 
 
@@ -136,18 +135,20 @@ export const loginUser = async (username, password) => {
     return [];
   }
 
-  const user = await res.json();
-  return [user]; // Login.jsx expects an array and checks users.length > 0
+  const data = await res.json();
+  // Store the JWT token
+  localStorage.setItem('token', data.token);
+  return [data.user]; // Login.jsx expects an array and checks users.length > 0
 };
 
-// CHECK USERNAME
+// CHECK USERNAME (public — no token needed)
 export const checkUsername = (username) =>
   fetch(
     `${BASE_URL}/users?username=${encodeURIComponent(username)}`
   )
     .then((res) => res.json());
 
-// CREATE USER
+// CREATE USER (public — no token needed)
 export const createUser = (user) =>
   fetch(`${BASE_URL}/users`, {
     method: 'POST',
@@ -163,16 +164,14 @@ export const createUser = (user) =>
 
 // GET notifications for a user — server-side filtering by toUserId
 export const fetchNotifications = (userId) =>
-  fetch(`${BASE_URL}/notifications?toUserId=${userId}`)
+  fetch(`${BASE_URL}/notifications?toUserId=${userId}`, { headers: authHeaders() })
     .then((res) => res.json());
 
 // CREATE notification
 export const createNotification = (notification) =>
   fetch(`${BASE_URL}/notifications`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: authHeaders(),
     body: JSON.stringify(notification),
   }).then((res) => res.json());
 
@@ -180,9 +179,7 @@ export const createNotification = (notification) =>
 export const markNotificationRead = (id) =>
   fetch(`${BASE_URL}/notifications/${id}`, {
     method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: authHeaders(),
     body: JSON.stringify({ read: true }),
   }).then((res) => res.json());
 
@@ -192,15 +189,13 @@ export const markNotificationRead = (id) =>
 
 // GET messages between two users — server-side filtering
 export const fetchMessages = (userId, otherUserId) =>
-  fetch(`${BASE_URL}/messages?user1=${userId}&user2=${otherUserId}`)
+  fetch(`${BASE_URL}/messages?user1=${userId}&user2=${otherUserId}`, { headers: authHeaders() })
     .then((res) => res.json());
 
 // CREATE message
 export const createMessage = (message) =>
   fetch(`${BASE_URL}/messages`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: authHeaders(),
     body: JSON.stringify(message),
   }).then((res) => res.json());
