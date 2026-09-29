@@ -13,11 +13,11 @@ const Message = require('./models/Message');
 const Story = require('./models/Story');
 
 async function seed() {
-  // ── 1. Connect to MongoDB ──
+  //   Connect to MongoDB 
   await connectDB();
   console.log('\n========== SEED SCRIPT STARTED ==========\n');
 
-  // ── 2. Read db.json ──
+  //   Read db.json 
   const dbPath = path.join(__dirname, '..', '..', 'db', 'db.json');
   console.log(`Reading: ${dbPath}`);
 
@@ -36,7 +36,7 @@ async function seed() {
   console.log(`  Messages:       ${data.messages?.length || 0}`);
   console.log(`  Stories:        ${data.stories?.length || 0}`);
 
-  // ── 3. Clear existing data (duplicate protection) ──
+  //  Clear existing data (duplicate protection) 
   console.log('\nClearing existing collections...');
   await User.deleteMany({});
   await Post.deleteMany({});
@@ -45,9 +45,8 @@ async function seed() {
   await Story.deleteMany({});
   console.log('  Done — all collections cleared.');
 
-  // ── 4. Seed Users ──
-  //    Insert users and build a map:  oldId → newMongoId (as string)
-  //    Passwords are hashed with bcrypt before storing
+  //  Seed Users 
+ 
   console.log('\nSeeding users...');
   const userIdMap = {};   // e.g. { "1": "6ab...", "2": "6ab..." }
 
@@ -67,7 +66,7 @@ async function seed() {
     console.log(`  User "${u.username}" : ${u.id} → ${created._id}`);
   }
 
-  // ── 5. Seed Posts (including reels) ──
+  //  Seed Posts (including reels) 
   console.log('\nSeeding posts...');
   const postIdMap = {};   // e.g. { "1": "6ab...", "OBY9Nbc84o0": "6ab..." }
 
@@ -100,7 +99,7 @@ async function seed() {
     console.log(`  ${label} "${p.caption?.slice(0, 25)}..." : ${p.id} → ${created._id}`);
   }
 
-  // ── 6. Seed Notifications ──
+  //  Seed Notifications ]
   console.log('\nSeeding notifications...');
 
   for (const n of data.notifications || []) {
@@ -117,7 +116,7 @@ async function seed() {
   }
   console.log(`  ${data.notifications?.length || 0} notifications inserted.`);
 
-  // ── 7. Seed Messages ──
+  // Seed Messages 
   console.log('\nSeeding messages...');
 
   for (const m of data.messages || []) {
@@ -131,7 +130,7 @@ async function seed() {
   }
   console.log(`  ${data.messages?.length || 0} messages inserted.`);
 
-  // ── 8. Seed Stories ──
+  //  Seed Stories 
   console.log('\nSeeding stories...');
 
   for (const s of data.stories || []) {
@@ -144,7 +143,7 @@ async function seed() {
   }
   console.log(`  ${data.stories?.length || 0} stories inserted.`);
 
-  // ── 9. Final verification ──
+  //  Final verification 
   console.log('\n========== VERIFICATION ==========\n');
   const counts = {
     Users:         await User.countDocuments(),
@@ -160,7 +159,7 @@ async function seed() {
     console.log(`  ${name}: ${count} (expected ${expected}) ${status}`);
   }
 
-  // ── 10. Print ID mapping for reference ──
+  //  Print ID mapping for reference 
   console.log('\n========== ID MAPPING ==========\n');
   console.log('User IDs (old → new):');
   for (const [old, newId] of Object.entries(userIdMap)) {
@@ -173,7 +172,7 @@ async function seed() {
 
   console.log('\n========== SEED COMPLETE ==========\n');
 
-  // ── 11. Disconnect and exit ──
+  //  Disconnect and exit 
   const mongoose = require('mongoose');
   await mongoose.disconnect();
   console.log('MongoDB disconnected. Exiting.');

@@ -18,25 +18,25 @@ const User  = require('./models/User');
 
 const app = express();
 
-// ── Middleware ──
+//  Middleware 
 app.use(cors());
 app.use(express.json());
 
-// ── Health check ──
+//  Health check 
 app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok' });
 });
 
-// ── Public routes (no JWT required) ──
+//  Public routes 
 app.use('/',              authRoutes);         // POST /login
 app.use('/users',         userRoutes);         // signup + check are public (auth applied per-route inside)
 
-// ── Protected routes (JWT required) ──
+//  Protected routes 
 app.use('/posts',         authMiddleware, postRoutes);         // CRUD /posts
 app.use('/notifications', authMiddleware, notificationRoutes); // CRUD /notifications
 app.use('/messages',      authMiddleware, messageRoutes);      // GET + POST /messages
 
-// ── Stories (protected) ──
+//  Stories (protected) 
 app.get('/stories', authMiddleware, async (_req, res) => {
   try {
     const stories = await Story.find();
@@ -46,7 +46,7 @@ app.get('/stories', authMiddleware, async (_req, res) => {
   }
 });
 
-// ── Suggestions (protected) ──
+//  Suggestions (protected) 
 app.get('/suggestions', authMiddleware, async (_req, res) => {
   try {
     const users = await User.find().limit(5).select('-password');
@@ -61,7 +61,7 @@ app.get('/suggestions', authMiddleware, async (_req, res) => {
   }
 });
 
-// ── Profile (protected) ──
+//  Profile (protected) 
 app.get('/profile', authMiddleware, async (_req, res) => {
   try {
     const user = await User.findOne().select('-password');
@@ -76,7 +76,7 @@ app.get('/profile', authMiddleware, async (_req, res) => {
   }
 });
 
-// ── Start server ──
+//  Start server 
 const PORT = process.env.PORT || 3000;
 
 connectDB().then(() => {

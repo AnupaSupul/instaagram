@@ -1,6 +1,5 @@
 const Notification = require('../models/Notification');
 
-// GET /notifications  or  GET /notifications?toUserId=X
 exports.getNotifications = async (req, res) => {
   try {
     const { toUserId } = req.query;
@@ -12,7 +11,6 @@ exports.getNotifications = async (req, res) => {
   }
 };
 
-// POST /notifications
 exports.createNotification = async (req, res) => {
   try {
     const notification = await Notification.create(req.body);
@@ -22,7 +20,7 @@ exports.createNotification = async (req, res) => {
   }
 };
 
-// PATCH /notifications/:id  (mark as read, etc.)
+// PATCH /notifications/:id 
 exports.updateNotification = async (req, res) => {
   try {
     const notification = await Notification.findByIdAndUpdate(

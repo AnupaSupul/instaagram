@@ -1,6 +1,6 @@
 const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
-//  Helper: get auth headers (includes JWT if available) 
+//   get auth headers (includes JWT if available) 
 function authHeaders() {
   const token = localStorage.getItem('token');
   const headers = { 'Content-Type': 'application/json' };
@@ -10,7 +10,7 @@ function authHeaders() {
   return headers;
 }
 
-// Helper: fetch with automatic logout on 401
+// fetch with automatic logout on 401
 function authFetch(url, options = {}) {
   return fetch(url, options).then((res) => {
     if (res.status === 401) {
@@ -133,7 +133,7 @@ export const fetchStories = () =>
 
 // ==================== AUTH ====================
 
-// LOGIN — calls POST /login, wraps result in array for Login.jsx compatibility
+// LOGIN  calls POST /login
 export const loginUser = async (username, password) => {
   const res = await fetch(`${BASE_URL}/login`, {
     method: 'POST',
@@ -142,24 +142,23 @@ export const loginUser = async (username, password) => {
   });
 
   if (!res.ok) {
-    // Login failed — return empty array so Login.jsx shows error
     return [];
   }
 
   const data = await res.json();
   // Store the JWT token
   localStorage.setItem('token', data.token);
-  return [data.user]; // Login.jsx expects an array and checks users.length > 0
+  return [data.user]; 
 };
 
-// CHECK USERNAME (public — no token needed)
+// CHECK USERNAME 
 export const checkUsername = (username) =>
   fetch(
     `${BASE_URL}/users?username=${encodeURIComponent(username)}`
   )
     .then((res) => res.json());
 
-// CREATE USER (public — no token needed)
+// CREATE USER 
 export const createUser = (user) =>
   fetch(`${BASE_URL}/users`, {
     method: 'POST',
@@ -198,12 +197,12 @@ export const markNotificationRead = (id) =>
 
 // ==================== MESSAGES ====================
 
-// GET messages between two users — server-side filtering
+// GET messages between two users 
 export const fetchMessages = (userId, otherUserId) =>
   authFetch(`${BASE_URL}/messages?user1=${userId}&user2=${otherUserId}`, { headers: authHeaders() })
     .then((res) => res.json());
 
-// CREATE message
+    
 export const createMessage = (message) =>
   authFetch(`${BASE_URL}/messages`, {
     method: 'POST',

@@ -1,6 +1,5 @@
 const Message = require('../models/Message');
 
-// GET /messages?user1=X&user2=Y  (messages between two users, both directions)
 exports.getMessages = async (req, res) => {
   try {
     const { user1, user2 } = req.query;
@@ -23,7 +22,7 @@ exports.getMessages = async (req, res) => {
   }
 };
 
-// POST /messages  (persist a sent message)
+// POST /messages  
 exports.createMessage = async (req, res) => {
   try {
     const message = await Message.create(req.body);

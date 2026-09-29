@@ -23,7 +23,7 @@ exports.createPost = async (req, res) => {
   }
 };
 
-// PATCH /posts/:id  (partial update — likes, comments, savedBy, etc.)
+// PATCH /posts/:id  
 exports.updatePost = async (req, res) => {
   try {
     const post = await Post.findByIdAndUpdate(
