@@ -1,6 +1,5 @@
 const Post = require('../models/Post');
 
-// GET /posts  or  GET /posts?userId=X
 exports.getPosts = async (req, res) => {
   try {
     const { userId } = req.query;
@@ -13,7 +12,6 @@ exports.getPosts = async (req, res) => {
   }
 };
 
-// POST /posts  (create post or reel)
 exports.createPost = async (req, res) => {
   try {
     const post = await Post.create(req.body);
@@ -38,7 +36,6 @@ exports.updatePost = async (req, res) => {
   }
 };
 
-// DELETE /posts/:id
 exports.deletePost = async (req, res) => {
   try {
     const post = await Post.findByIdAndDelete(req.params.id);

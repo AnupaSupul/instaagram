@@ -33,8 +33,8 @@ export const fetchUserPosts = (userId) =>
   authFetch(`${BASE_URL}/posts?userId=${userId}`, { headers: authHeaders() })
     .then((res) => res.json());
 
-// CREATE post
-export const createPost = (post) =>
+
+    export const createPost = (post) =>
   authFetch(`${BASE_URL}/posts`, {
     method: 'POST',
     headers: authHeaders(),
@@ -42,7 +42,6 @@ export const createPost = (post) =>
   })
     .then((res) => res.json());
 
-// DELETE post
 export const deletePost = (id) =>
   authFetch(`${BASE_URL}/posts/${id}`, {
     method: 'DELETE',
@@ -50,7 +49,6 @@ export const deletePost = (id) =>
   });
 
 
-// LIKE / UNLIKE POST
 export const likePost = (id, data) =>
   authFetch(`${BASE_URL}/posts/${id}`, {
     method: 'PATCH',
@@ -61,7 +59,6 @@ export const likePost = (id, data) =>
 
 
 
-// ADD COMMENT
 export const addComment = (postId, comments) =>
   authFetch(`${BASE_URL}/posts/${postId}`, {
     method: 'PATCH',
@@ -70,7 +67,6 @@ export const addComment = (postId, comments) =>
   }).then((res) => res.json());
 
 
-// savePost
 export const savePost = (id, savedBy) =>
   authFetch(`${BASE_URL}/posts/${id}`, {
     method: 'PATCH',
@@ -79,7 +75,6 @@ export const savePost = (id, savedBy) =>
   }).then((res) => res.json());
 
 
-// UPDATE POST
 export const updatePost = (id, data) =>
   authFetch(`${BASE_URL}/posts/${id}`, {
     method: 'PATCH',
@@ -91,7 +86,7 @@ export const updatePost = (id, data) =>
 
 // ==================== PROFILE ====================
 
-// PATCH bio for logged-in user
+
 export const updateUserBio = (userId, bio) =>
   authFetch(`${BASE_URL}/users/${userId}`, {
     method: 'PATCH',
@@ -125,10 +120,16 @@ export const fetchSuggestions = () =>
 
 // ==================== STORIES ====================
 
-// GET all stories
 export const fetchStories = () =>
   authFetch(`${BASE_URL}/stories`, { headers: authHeaders() })
     .then((res) => res.json());
+
+export const createStory = (story) =>
+  authFetch(`${BASE_URL}/stories`, {
+    method: 'POST',
+    headers: authHeaders(),
+    body: JSON.stringify(story),
+  }).then((res) => res.json());
 
 
 // ==================== AUTH ====================
@@ -151,15 +152,15 @@ export const loginUser = async (username, password) => {
   return [data.user]; 
 };
 
-// CHECK USERNAME 
+
 export const checkUsername = (username) =>
   fetch(
     `${BASE_URL}/users?username=${encodeURIComponent(username)}`
   )
     .then((res) => res.json());
 
-// CREATE USER 
-export const createUser = (user) =>
+
+    export const createUser = (user) =>
   fetch(`${BASE_URL}/users`, {
     method: 'POST',
     headers: {
@@ -177,16 +178,16 @@ export const fetchNotifications = (userId) =>
   authFetch(`${BASE_URL}/notifications?toUserId=${userId}`, { headers: authHeaders() })
     .then((res) => res.json());
 
-// CREATE notification
-export const createNotification = (notification) =>
+
+    export const createNotification = (notification) =>
   authFetch(`${BASE_URL}/notifications`, {
     method: 'POST',
     headers: authHeaders(),
     body: JSON.stringify(notification),
   }).then((res) => res.json());
 
-// MARK notification as read
-export const markNotificationRead = (id) =>
+
+  export const markNotificationRead = (id) =>
   authFetch(`${BASE_URL}/notifications/${id}`, {
     method: 'PATCH',
     headers: authHeaders(),
@@ -202,7 +203,7 @@ export const fetchMessages = (userId, otherUserId) =>
   authFetch(`${BASE_URL}/messages?user1=${userId}&user2=${otherUserId}`, { headers: authHeaders() })
     .then((res) => res.json());
 
-    
+
 export const createMessage = (message) =>
   authFetch(`${BASE_URL}/messages`, {
     method: 'POST',

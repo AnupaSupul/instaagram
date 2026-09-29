@@ -46,6 +46,15 @@ app.get('/stories', authMiddleware, async (_req, res) => {
   }
 });
 
+app.post('/stories', authMiddleware, async (req, res) => {
+  try {
+    const story = await Story.create(req.body);
+    res.status(201).json(story);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 //  Suggestions (protected) 
 app.get('/suggestions', authMiddleware, async (_req, res) => {
   try {

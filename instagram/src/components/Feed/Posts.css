@@ -7,6 +7,10 @@
   max-width: 500px;
   position: relative;
   margin-bottom: 40px;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid #efefef;
+  background: #fff;
 }
 
 
@@ -253,7 +257,7 @@
 
   background: white;
 
-  border-radius: 14px;
+  border-radius: 18px;
 
   padding: 20px;
 

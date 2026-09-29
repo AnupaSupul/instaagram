@@ -12,7 +12,7 @@
 .auth-card {
   background: #fff;
   border: 1px solid #dbdbdb;
-  border-radius: 4px;
+  border-radius: 14px;
   padding: 40px;
   width: 100%;
   max-width: 350px;
@@ -50,7 +50,7 @@
   width: 100%;
   background: #fafafa;
   border: 1px solid #dbdbdb;
-  border-radius: 3px;
+  border-radius: 10px;
   padding: 9px 8px;
   font-size: 12px;
   outline: none;
